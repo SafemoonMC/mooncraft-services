@@ -113,6 +113,9 @@ task buildAndExtractJavadoc(type: Copy) {
 }
 task buildAndExtractShadowjar(type: Copy) {
     from subprojects.collect { it.tasks.withType(Jar).named("shadowJar") }
+    exclude 'Bukkit.jar'
+    exclude 'Bungee.jar'
+    exclude 'Core.jar'
     into "/COMPILED-JARS"
 }
 task buildAndExtractAll(type: Copy) {

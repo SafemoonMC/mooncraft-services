@@ -1,0 +1,5 @@
+dependencies {
+    implementation 'redis.clients:jedis:3.7.0'
+}
+group 'mc.mooncraft.services.minecraft.core'
+description = 'This is the Minecraft Core of MoonCraft Services.'

@@ -1,0 +1,16 @@
+dependencies {
+    implementation project(':MSMinecraft:Core')
+    implementation project(':MSMinecraft:Bukkit')
+    implementation project(':MSMinecraft:Bungee')
+
+    implementation 'redis.clients:jedis:3.7.0'
+    implementation 'com.google.code.gson:gson:2.8.8'
+}
+shadowJar {
+    relocate 'com.google.gson', 'mc.mooncraft.services.libs.com.google.gson'
+    relocate 'redis.clients', 'mc.mooncraft.services.libs.redis.clients'
+    relocate 'org.apache.commons.pool2', 'mc.mooncraft.services.libs.org.apache.commons.pool2'
+}
+
+group 'mc.mooncraft.services.minecraft'
+description = 'This is the Minecraft version of MoonCraft services'

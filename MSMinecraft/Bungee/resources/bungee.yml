@@ -1,0 +1,4 @@
+name: MSMinecraft
+main: mc.mooncraft.services.minecraft.bungee.MSMinecraftMain
+version: @plugin-version@
+author: @minecraft-author@

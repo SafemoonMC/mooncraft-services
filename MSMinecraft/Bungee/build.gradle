@@ -1,0 +1,9 @@
+dependencies {
+    compileOnly rootProject.project(':MSMinecraft:Core')
+    compileOnly 'net.md-5:bungeecord-api:1.16-R0.5-SNAPSHOT'
+    compileOnly 'redis.clients:jedis:3.7.0'
+    compileOnly 'com.google.code.gson:gson:2.8.8'
+}
+
+group 'mc.mooncraft.services.minecraft.bungee'
+description = 'This is the Minecraft Bungee version of MoonCraft services'

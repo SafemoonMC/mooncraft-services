@@ -1,0 +1,25 @@
+#################
+# Redis Settings
+#################
+redis:
+  username: root
+  password: root
+  hostname: localhost
+  port: 1111
+  pool-settings:
+    # Check https://partners-intl.aliyun.com/help/doc-detail/98726.htm
+    # The minimum number of idle connections in the pool. Default 0
+    min-idle: 10
+    # The maximum number of idle connections in the pool. Default 8
+    max-idle: 20
+    # The maximum number of connections that are supported by the pool. Default 8
+    max-total: 20
+    # The number of resources to be detected within each cycle.
+    # A value of -1 specifies that the system checks all connections for idle resources.
+    num-tests-per-eviction-run: 3
+    # The minimum idle time of a resource in the resource pool. Unit: milliseconds.
+    # When the upper limit is reached, the idle resource is evicted.
+    min-evictable-idle-time-millis: 60000
+    # Specifies the cycle of idle resources detection. Unit: milliseconds.
+    # A value of -1 specifies idle resource detection is disabled.
+    time-between-eviction-runs-millis: 30000

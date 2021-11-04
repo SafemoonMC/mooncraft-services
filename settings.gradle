@@ -1,0 +1,6 @@
+rootProject.name = 'mooncraft-services'
+include 'MSMinecraft'
+include 'MSMinecraft:Bukkit'
+include 'MSMinecraft:Bungee'
+include 'MSMinecraft:Core'
+

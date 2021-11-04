@@ -1,0 +1,5 @@
+name: MSMinecraft
+main: mc.mooncraft.services.minecraft.bukkit.MSMinecraftMain
+version: @plugin-version@
+api-version: @plugin-api-version@
+author: @minecraft-author@
