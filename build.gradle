@@ -1,0 +1,124 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
+plugins {
+    id 'java'
+    id "io.freefair.lombok" version "6.2.0" apply false
+    id "com.github.johnrengelman.shadow" version "7.1.0" apply false
+    id "com.sidneysimmons.gradle-plugin-external-properties" version "2.0.0"
+}
+
+externalProperties { propertiesFileResolver project.file("secrets.properties") }
+
+dependencies {
+    compileOnly 'org.projectlombok:lombok:1.18.22'
+    compileOnly 'org.jetbrains:annotations:22.0.0'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.jetbrains:annotations:22.0.0'
+}
+
+allprojects {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url = uri('https://papermc.io/repo/repository/maven-public/') }
+        maven { url = uri('https://hub.spigotmc.org/nexus/content/repositories/snapshots/') }
+        maven { url = uri('https://jitpack.io') }
+        maven { url = uri('https://repo.extendedclip.com/content/repositories/placeholderapi/') }
+        maven { url = uri('https://repo.maven.apache.org/maven2/') }
+        maven {
+            url 'https://repo.yoters.com/repository/maven-releases'
+            credentials {
+                username = props.get("nexus-username", project.properties.get("nesus-username") as String)
+                password = props.get("nexus-password", project.properties.get("nexus-password") as String)
+            }
+        }
+        maven {
+            url 'https://repo.yoters.com/repository/maven-snapshots'
+            credentials {
+                username = props.get("nexus-username", project.properties.get("nesus-username") as String)
+                password = props.get("nexus-password", project.properties.get("nexus-password") as String)
+            }
+        }
+    }
+}
+
+subprojects {
+    apply plugin: "java"
+    apply plugin: "io.freefair.lombok"
+    apply plugin: "com.github.johnrengelman.shadow"
+
+    lombok { version = "1.18.22" }
+
+    sourceSets {
+        main.java.srcDirs = ['src']
+        main.resources.srcDirs = ['resources']
+    }
+
+    java {
+        withSourcesJar()
+        withJavadocJar()
+        sourceCompatibility = JavaVersion.VERSION_16
+    }
+
+    processResources {
+        filter ReplaceTokens, tokens: [
+                "minecraft-author"  : project.property("minecraft-author"),
+                "plugin-version"    : project.property("plugin-version"),
+                "plugin-api-version": project.property("plugin-api-version")
+        ]
+    }
+
+    dependencies {
+        compileOnly 'org.projectlombok:lombok:1.18.22'
+        compileOnly 'org.jetbrains:annotations:22.0.0'
+        annotationProcessor 'org.projectlombok:lombok:1.18.22'
+        annotationProcessor 'org.jetbrains:annotations:22.0.0'
+    }
+
+    jar {
+        exclude '/META-INF/**'
+        archiveClassifier.set("base")
+    }
+    sourcesJar {
+        exclude '/META-INF/**'
+        archiveClassifier.set("sources")
+    }
+    javadocJar {
+        exclude '/META-INF/**'
+        archiveClassifier.set("javadocs")
+    }
+    shadowJar {
+        exclude '/META-INF/**'
+        archiveClassifier.set("")
+    }
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
+    tasks.withType(Javadoc) {
+        options.encoding = 'UTF-8'
+    }
+}
+
+task buildAndExtractBase(type: Copy) {
+    from subprojects.collect { it.tasks.withType(Jar).named("jar") }
+    into "/COMPILED-JARS/base"
+}
+task buildAndExtractSources(type: Copy) {
+    from subprojects.collect { it.tasks.withType(Jar).named("sourcesJar") }
+    into "/COMPILED-JARS/sources"
+}
+task buildAndExtractJavadoc(type: Copy) {
+    from subprojects.collect { it.tasks.withType(Jar).named("javadocJar") }
+    into "/COMPILED-JARS/javadocs"
+}
+task buildAndExtractShadowjar(type: Copy) {
+    from subprojects.collect { it.tasks.withType(Jar).named("shadowJar") }
+    into "/COMPILED-JARS"
+}
+task buildAndExtractAll(type: Copy) {
+    dependsOn clean
+    dependsOn buildAndExtractBase
+    dependsOn buildAndExtractJavadoc
+    dependsOn buildAndExtractSources
+    dependsOn buildAndExtractShadowjar
+}
