@@ -1,9 +1,9 @@
 package mc.mooncraft.services.minecraft.bungee.factories;
 
 
-import mc.mooncraft.services.minecraft.bungee.MSMinecraftMain;
 import lombok.Getter;
-import mc.mooncraft.services.minecraft.bungee.model.NetworkPlayers;
+import mc.mooncraft.services.datamodels.NetworkPlayers;
+import mc.mooncraft.services.minecraft.bungee.MSMinecraftMain;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;

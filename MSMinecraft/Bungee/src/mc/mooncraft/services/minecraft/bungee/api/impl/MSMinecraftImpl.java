@@ -1,10 +1,10 @@
 package mc.mooncraft.services.minecraft.bungee.api.impl;
 
+import mc.mooncraft.services.datamodels.NetworkCounters;
+import mc.mooncraft.services.datamodels.NetworkPlayers;
 import mc.mooncraft.services.minecraft.bungee.api.MSMinecraft;
 import mc.mooncraft.services.minecraft.bungee.factories.NetworkCountersFactory;
 import mc.mooncraft.services.minecraft.bungee.factories.NetworkPlayersFactory;
-import mc.mooncraft.services.minecraft.bungee.model.NetworkCounters;
-import mc.mooncraft.services.minecraft.bungee.model.NetworkPlayers;
 import org.jetbrains.annotations.NotNull;
 
 public final class MSMinecraftImpl implements MSMinecraft {

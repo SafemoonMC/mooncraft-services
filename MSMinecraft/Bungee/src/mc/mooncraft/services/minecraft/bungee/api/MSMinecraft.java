@@ -1,7 +1,7 @@
 package mc.mooncraft.services.minecraft.bungee.api;
 
-import mc.mooncraft.services.minecraft.bungee.model.NetworkCounters;
-import mc.mooncraft.services.minecraft.bungee.model.NetworkPlayers;
+import mc.mooncraft.services.datamodels.NetworkCounters;
+import mc.mooncraft.services.datamodels.NetworkPlayers;
 import org.jetbrains.annotations.NotNull;
 
 public interface MSMinecraft {

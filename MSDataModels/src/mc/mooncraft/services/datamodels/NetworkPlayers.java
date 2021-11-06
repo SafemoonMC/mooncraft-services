@@ -1,4 +1,4 @@
-package mc.mooncraft.services.minecraft.bungee.model;
+package mc.mooncraft.services.datamodels;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,5 +28,9 @@ public final class NetworkPlayers {
     @UnmodifiableView
     public @NotNull List<UUID> getServerPlayersList(@NotNull String server) {
         return Collections.unmodifiableList(this.serversMap.getOrDefault(server, new ArrayList<>()));
+    }
+    
+    public @NotNull Optional<String> getPlayerServer(@NotNull UUID playerUniqueId) {
+        return serversMap.entrySet().stream().filter(entry -> entry.getValue().contains(playerUniqueId)).findFirst().map(Map.Entry::getKey);
     }
 }

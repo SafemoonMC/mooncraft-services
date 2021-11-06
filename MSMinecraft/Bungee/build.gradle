@@ -1,4 +1,5 @@
 dependencies {
+    compileOnly rootProject.project(':MSDataModels')
     compileOnly rootProject.project(':MSMinecraft:Core')
     compileOnly 'net.md-5:bungeecord-api:1.16-R0.5-SNAPSHOT'
     compileOnly 'redis.clients:jedis:3.7.0'

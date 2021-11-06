@@ -1,9 +1,9 @@
 package mc.mooncraft.services.minecraft.bungee.factories;
 
 
-import mc.mooncraft.services.minecraft.bungee.MSMinecraftMain;
 import lombok.Getter;
-import mc.mooncraft.services.minecraft.bungee.model.NetworkCounters;
+import mc.mooncraft.services.datamodels.NetworkCounters;
+import mc.mooncraft.services.minecraft.bungee.MSMinecraftMain;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
 import org.jetbrains.annotations.NotNull;

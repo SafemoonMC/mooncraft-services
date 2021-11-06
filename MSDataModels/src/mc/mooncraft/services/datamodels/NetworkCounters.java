@@ -1,4 +1,4 @@
-package mc.mooncraft.services.minecraft.bungee.model;
+package mc.mooncraft.services.datamodels;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,14 +16,19 @@ public final class NetworkCounters {
     Fields
      */
     private final long totalOnlinePlayers;
-    private final Map<String, Long> serverOnlinePlayers;
+    private final Map<String, Long> serversCounterMap;
     private final long timestamp = System.currentTimeMillis();
     
     /*
     Methods
      */
     @UnmodifiableView
-    public @NotNull Map<String, Long> getServerOnlinePlayers() {
-        return Collections.unmodifiableMap(this.serverOnlinePlayers);
+    public @NotNull Map<String, Long> getServersCounterMap() {
+        return Collections.unmodifiableMap(this.serversCounterMap);
+    }
+    
+    @UnmodifiableView
+    public long getServerCounter(@NotNull String serverName) {
+        return serversCounterMap.getOrDefault(serverName, 0L);
     }
 }
