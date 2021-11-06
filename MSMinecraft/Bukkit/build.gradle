@@ -1,7 +1,6 @@
 dependencies {
+    compileOnly rootProject.project(':MSDataModels')
     compileOnly rootProject.files('/dependencies/spigots/Paper-1.16.5.jar')
-
-//    compileOnly rootProject.project(':MSCore')
 
     compileOnly 'me.clip:placeholderapi:2.10.9'
     compileOnly 'com.google.code.gson:gson:2.8.8'
