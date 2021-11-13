@@ -21,7 +21,7 @@ public final class NetworkPlayersFactory {
     /*
     Constants
      */
-    public static final @NotNull String REDIS_KEY = "mooncraft-services-network-players";
+    public static final @NotNull String REDIS_KEY = "mooncraft-service:network-players";
     
     /*
     Fields

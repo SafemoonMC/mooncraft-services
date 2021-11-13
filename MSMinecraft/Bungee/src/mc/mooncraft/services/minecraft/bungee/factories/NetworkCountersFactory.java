@@ -18,7 +18,7 @@ public final class NetworkCountersFactory {
     /*
     Constants
      */
-    public static final @NotNull String REDIS_KEY = "mooncraft-services-network-counters";
+    public static final @NotNull String REDIS_KEY = "mooncraft-services:network-counters";
     
     /*
     Fields
