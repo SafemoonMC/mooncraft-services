@@ -4,4 +4,3 @@ include 'MSMinecraft:Bukkit'
 include 'MSMinecraft:Bungee'
 include 'MSMinecraft:Core'
 include 'MSDataModels'
-
