@@ -14,7 +14,7 @@ public final class NetworkPlayers {
     /*
     Fields
      */
-    private final Map<String, List<UUID>> serversMap;
+    private final @NotNull Map<String, List<UUID>> serversMap;
     private final long timestamp = System.currentTimeMillis();
     
     /*
