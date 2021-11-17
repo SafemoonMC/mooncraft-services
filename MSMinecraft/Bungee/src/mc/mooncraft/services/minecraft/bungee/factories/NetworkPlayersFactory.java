@@ -3,6 +3,7 @@ package mc.mooncraft.services.minecraft.bungee.factories;
 
 import lombok.Getter;
 import mc.mooncraft.services.datamodels.NetworkPlayers;
+import mc.mooncraft.services.datamodels.ProtocolKeys;
 import mc.mooncraft.services.minecraft.bungee.MSMinecraftMain;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
@@ -17,11 +18,6 @@ import java.util.stream.Collectors;
 
 @Getter
 public final class NetworkPlayersFactory {
-    
-    /*
-    Constants
-     */
-    public static final @NotNull String REDIS_KEY = "mooncraft-service:network-players";
     
     /*
     Fields
@@ -40,19 +36,25 @@ public final class NetworkPlayersFactory {
      */
     public @NotNull CompletableFuture<NetworkPlayers> update() {
         return CompletableFuture.supplyAsync(() -> {
-                                    Map<String, List<UUID>> map = ProxyServer.getInstance().getServers()
-                                                                             .values()
-                                                                             .stream()
-                                                                             .collect(Collectors.toMap(ServerInfo::getName, serverInfo -> serverInfo.getPlayers()
-                                                                                                                                                    .stream()
-                                                                                                                                                    .map(ProxiedPlayer::getUniqueId)
-                                                                                                                                                    .collect(Collectors.toList())));
-                                    return new NetworkPlayers(map);
-                                })
-                                .thenApply(newNetworkPlayers -> this.networkPlayers = newNetworkPlayers)
-                                .thenApply(newNetworkPlayers -> {
-                                    MSMinecraftMain.getInstance().getJedisManager().addKeyValue(REDIS_KEY, MSMinecraftMain.getGson().toJson(networkPlayers));
-                                    return newNetworkPlayers;
-                                });
+                    Map<String, List<UUID>> map = ProxyServer.getInstance().getServers()
+                            .values()
+                            .stream()
+                            .collect(Collectors.toMap(ServerInfo::getName, serverInfo -> serverInfo.getPlayers()
+                                    .stream()
+                                    .map(ProxiedPlayer::getUniqueId)
+                                    .collect(Collectors.toList())));
+                    return new NetworkPlayers(map);
+                })
+                .thenApply(newNetworkPlayers -> this.networkPlayers = newNetworkPlayers)
+                .thenApply(newNetworkPlayers -> {
+                    MSMinecraftMain.getInstance().getLogger().info("Adding NetworkPlayers into Redis memory...");
+                    MSMinecraftMain.getInstance().getJedisManager().addKeyValue(ProtocolKeys.REDIS_NETWORK_PLAYERS, MSMinecraftMain.getGson().toJson(newNetworkPlayers));
+                    return newNetworkPlayers;
+                })
+                .thenApply(newNetworkPlayers -> {
+                    MSMinecraftMain.getInstance().getLogger().info("Sending NetworkPlayers to all servers...");
+                    MSMinecraftMain.getInstance().getBungeeMessaging().sendJsonMessage(ProtocolKeys.BUNGEE_NETWORK_PLAYERS, MSMinecraftMain.getGson().toJson(newNetworkPlayers));
+                    return newNetworkPlayers;
+                });
     }
 }

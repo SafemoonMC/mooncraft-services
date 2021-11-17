@@ -1,4 +1,4 @@
-package mc.mooncraft.services.minecraft.bungee.api;
+package mc.mooncraft.services.minecraft.bukkit.api;
 
 import org.jetbrains.annotations.NotNull;
 

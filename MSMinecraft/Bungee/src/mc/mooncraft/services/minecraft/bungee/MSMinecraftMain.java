@@ -3,6 +3,7 @@ package mc.mooncraft.services.minecraft.bungee;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import lombok.AccessLevel;
 import lombok.Getter;
 import mc.mooncraft.services.minecraft.bungee.api.ApiRegistrationUtility;
 import mc.mooncraft.services.minecraft.bungee.api.impl.MSMinecraftImpl;
@@ -30,7 +31,10 @@ public class MSMinecraftMain extends Plugin {
     private BungeeConfiguration bungeeConfiguration;
     private JedisManager jedisManager;
     
-    private MSMinecraftImpl mcsBungeeImpl;
+    private BungeeMessaging bungeeMessaging;
+    
+    @Getter(value = AccessLevel.NONE)
+    private MSMinecraftImpl msmBungeeImpl;
     private NetworkPlayersFactory networkPlayersFactory;
     private NetworkCountersFactory networkCountersFactory;
     
@@ -52,11 +56,14 @@ public class MSMinecraftMain extends Plugin {
             return;
         }
         
+        // Load BungeeMessaging
+        this.bungeeMessaging = new BungeeMessaging();
+        
         // Load public API
         this.networkPlayersFactory = new NetworkPlayersFactory();
         this.networkCountersFactory = new NetworkCountersFactory();
-        this.mcsBungeeImpl = new MSMinecraftImpl(this.networkPlayersFactory, this.networkCountersFactory);
-        ApiRegistrationUtility.registerProvider(this.mcsBungeeImpl);
+        this.msmBungeeImpl = new MSMinecraftImpl(this.networkPlayersFactory, this.networkCountersFactory);
+        ApiRegistrationUtility.registerProvider(this.msmBungeeImpl);
         
         // Load listeners
         new ServerListeners();
@@ -68,6 +75,9 @@ public class MSMinecraftMain extends Plugin {
     public void onDisable() {
         if (this.jedisManager != null) this.jedisManager.stop();
         ApiRegistrationUtility.unregisterProvider();
+        
+        if (this.bungeeMessaging != null) this.bungeeMessaging.unload();
+        
         getLogger().info("Disabled!");
     }
     
@@ -92,9 +102,11 @@ public class MSMinecraftMain extends Plugin {
             HostAndPort hostAndPort = BungeeRedisUtilities.parseHostAndPort(sectionRedis);
             String username = sectionRedis.getString("username");
             String password = sectionRedis.getString("password");
-            if (username == null || password == null) throw new IllegalStateException("complete credentials are missing from redis configuration section");
+            if (username == null || password == null)
+                throw new IllegalStateException("complete credentials are missing from redis configuration section");
             Configuration sectionPoolSettings = sectionRedis.getSection("pool-settings");
-            if (sectionPoolSettings == null) throw new IllegalStateException("pool-settings section is missing from redis configuration section");
+            if (sectionPoolSettings == null)
+                throw new IllegalStateException("pool-settings section is missing from redis configuration section");
             JedisPoolConfig jedisPoolConfig = BungeeRedisUtilities.parsePoolConfig(sectionPoolSettings);
             
             this.jedisManager = new JedisManager(jedisPoolConfig, hostAndPort, username, password);

@@ -8,6 +8,8 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.concurrent.TimeUnit;
+
 public class ServerListeners implements Listener {
     
     /*
@@ -22,11 +24,17 @@ public class ServerListeners implements Listener {
      */
     @EventHandler
     public void on(@NotNull ServerConnectedEvent e) {
-        MSMinecraftMain.getInstance().getNetworkCountersFactory().update();
+        ProxyServer.getInstance().getScheduler().schedule(MSMinecraftMain.getInstance(), () -> {
+            MSMinecraftMain.getInstance().getNetworkPlayersFactory().update();
+            MSMinecraftMain.getInstance().getNetworkCountersFactory().update();
+        }, 1, TimeUnit.SECONDS);
     }
     
     @EventHandler
     public void on(@NotNull ServerDisconnectEvent e) {
-        MSMinecraftMain.getInstance().getNetworkCountersFactory().update();
+        ProxyServer.getInstance().getScheduler().schedule(MSMinecraftMain.getInstance(), () -> {
+            MSMinecraftMain.getInstance().getNetworkPlayersFactory().update();
+            MSMinecraftMain.getInstance().getNetworkCountersFactory().update();
+        }, 1, TimeUnit.SECONDS);
     }
 }
