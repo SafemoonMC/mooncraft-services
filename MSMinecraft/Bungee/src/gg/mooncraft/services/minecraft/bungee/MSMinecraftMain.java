@@ -9,6 +9,7 @@ import gg.mooncraft.services.minecraft.bungee.config.BungeeConfiguration;
 import gg.mooncraft.services.minecraft.bungee.config.ConfigurationPrefabs;
 import gg.mooncraft.services.minecraft.bungee.factories.NetworkCountersFactory;
 import gg.mooncraft.services.minecraft.bungee.factories.NetworkPlayersFactory;
+import gg.mooncraft.services.minecraft.bungee.handlers.InputOutputListeners;
 import gg.mooncraft.services.minecraft.bungee.handlers.ServerListeners;
 import gg.mooncraft.services.minecraft.bungee.utilities.BungeeRedisUtilities;
 import gg.mooncraft.services.minecraft.core.JedisManager;
@@ -71,6 +72,7 @@ public class MSMinecraftMain extends Plugin {
         
         // Load listeners
         new ServerListeners();
+        new InputOutputListeners();
         
         getLogger().info("Enabled!");
     }
