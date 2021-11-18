@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS msm_community
 (
     unique_id   CHAR(36)    NOT NULL PRIMARY KEY,
     username    VARCHAR(16) NOT NULL,
-    discord_id  BIGINT UNSIGNED,
+    discord_id  VARCHAR(18),
     wallet_id   VARCHAR(50),
     first_join  TIMESTAMP   NOT NULL,
     last_join   TIMESTAMP   NOT NULL,
