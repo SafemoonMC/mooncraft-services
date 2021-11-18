@@ -33,7 +33,7 @@ public class VerifyCommand extends Command {
                 proxiedPlayer.sendMessage(new ComponentBuilder("+---------------------------+").color(ChatColor.DARK_GRAY).strikethrough(true).create());
                 proxiedPlayer.sendMessage(new ComponentBuilder("Please join the Discord and run the").color(ChatColor.AQUA).create());
                 proxiedPlayer.sendMessage(new ComponentBuilder("!verify command in the bot channel").color(ChatColor.AQUA).create());
-                proxiedPlayer.sendMessage(new ComponentBuilder("https://discord.gg/mooncraftofficial/").color(ChatColor.AQUA).create());
+                proxiedPlayer.sendMessage(new ComponentBuilder("https://discord.gg/mooncraft/").color(ChatColor.AQUA).create());
                 proxiedPlayer.sendMessage(new ComponentBuilder("+---------------------------+").color(ChatColor.DARK_GRAY).strikethrough(true).create());
                 return;
             } else if (type.equalsIgnoreCase("wallet")) {
