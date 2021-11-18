@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder;
 import gg.mooncraft.services.minecraft.bungee.api.ApiRegistrationUtility;
 import gg.mooncraft.services.minecraft.bungee.api.impl.MSMinecraftImpl;
 import gg.mooncraft.services.minecraft.bungee.commands.IOCommand;
+import gg.mooncraft.services.minecraft.bungee.commands.VerifyCommand;
 import gg.mooncraft.services.minecraft.bungee.config.BungeeConfiguration;
 import gg.mooncraft.services.minecraft.bungee.config.ConfigurationPrefabs;
 import gg.mooncraft.services.minecraft.bungee.factories.NetworkCountersFactory;
@@ -78,6 +79,7 @@ public class MSMinecraftMain extends Plugin {
         new ServerListeners();
         
         // Load commands
+        new VerifyCommand();
         getConfigurationPrefabs().getCommunityInputOutputPrefab().getInputOutputList().forEach(inputOutput -> new IOCommand(inputOutput.command(), inputOutput.permission()));
         
         getLogger().info("Enabled!");
