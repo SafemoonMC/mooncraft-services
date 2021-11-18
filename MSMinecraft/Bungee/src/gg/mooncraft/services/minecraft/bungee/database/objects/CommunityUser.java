@@ -23,6 +23,7 @@ public final class CommunityUser {
     private final @Nullable String walletId;
     private final @NotNull Timestamp firstJoin;
     private final @NotNull Timestamp lastJoin;
+    private final long totalJoins;
     private final @NotNull String lastServer;
     
     /*
@@ -38,6 +39,7 @@ public final class CommunityUser {
                 ", walletId='" + walletId + '\'' +
                 ", firstJoin=" + firstJoin +
                 ", lastJoin=" + lastJoin +
+                ", totalJoins=" + totalJoins +
                 ", lastServer='" + lastServer + '\'' +
                 '}';
     }
