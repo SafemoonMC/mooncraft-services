@@ -79,8 +79,8 @@ servers-display:
 #################
 community-input-output:
   community:
-#    Each input could have a specific permission assigned. By default is accessible by everybody.
-#    permission: "msminecraft.io.community"
+    #    Each input could have a specific permission assigned. By default is accessible by everybody.
+    #    permission: "msminecraft.io.community"
     message:
       - '&8&m+-----------------------------+'
       - '&bhttps://community.safemoon.net/'
