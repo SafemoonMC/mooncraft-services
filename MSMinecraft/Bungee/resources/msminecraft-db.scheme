@@ -1,0 +1,22 @@
+# MSMinecraft stores players community data into two main tables:
+#  - msm_community, which contains unique_id, username, discord and wallet ids, join timestamps and last server the player was on;
+#  - msm_community_history, which contains the unique_id, username and change timestamp.
+# The msm_community_history table contains all player's old usernames if any.
+CREATE TABLE IF NOT EXISTS msm_community
+(
+    unique_id   CHAR(36)    NOT NULL PRIMARY KEY,
+    username    VARCHAR(16) NOT NULL,
+    discord_id  BIGINT UNSIGNED,
+    wallet_id   VARCHAR(50),
+    first_join  TIMESTAMP   NOT NULL,
+    last_join   TIMESTAMP   NOT NULL,
+    last_server VARCHAR(36) NOT NULL
+);
+CREATE TABLE IF NOT EXISTS msm_community_history
+(
+    id          BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    unique_id   CHAR(36)        NOT NULL,
+    username    VARCHAR(16)     NOT NULL,
+    change_time TIMESTAMP       NOT NULL,
+    FOREIGN KEY (unique_id) REFERENCES msm_community (unique_id) ON DELETE CASCADE
+);
