@@ -9,6 +9,7 @@ import gg.mooncraft.services.minecraft.bungee.config.BungeeConfiguration;
 import gg.mooncraft.services.minecraft.bungee.config.ConfigurationPrefabs;
 import gg.mooncraft.services.minecraft.bungee.factories.NetworkCountersFactory;
 import gg.mooncraft.services.minecraft.bungee.factories.NetworkPlayersFactory;
+import gg.mooncraft.services.minecraft.bungee.factories.NetworkServersFactory;
 import gg.mooncraft.services.minecraft.bungee.handlers.InputOutputListeners;
 import gg.mooncraft.services.minecraft.bungee.handlers.ServerListeners;
 import gg.mooncraft.services.minecraft.bungee.utilities.BungeeRedisUtilities;
@@ -40,6 +41,7 @@ public class MSMinecraftMain extends Plugin {
     @Getter(value = AccessLevel.NONE)
     private MSMinecraftImpl msmBungeeImpl;
     private NetworkPlayersFactory networkPlayersFactory;
+    private NetworkServersFactory networkServersFactory;
     private NetworkCountersFactory networkCountersFactory;
     
     /*
@@ -67,7 +69,9 @@ public class MSMinecraftMain extends Plugin {
         // Load public API
         this.networkPlayersFactory = new NetworkPlayersFactory();
         this.networkCountersFactory = new NetworkCountersFactory();
-        this.msmBungeeImpl = new MSMinecraftImpl(this.networkPlayersFactory, this.networkCountersFactory);
+        this.networkServersFactory = new NetworkServersFactory();
+        
+        this.msmBungeeImpl = new MSMinecraftImpl(this.networkPlayersFactory, this.networkServersFactory, this.networkCountersFactory);
         ApiRegistrationUtility.registerProvider(this.msmBungeeImpl);
         
         // Load listeners

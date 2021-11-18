@@ -15,4 +15,5 @@ public final class ProtocolKeys {
     public static final @NotNull String BUNGEE_NETWORK_COUNTERS = "network-counters";
     public static final @NotNull String REDIS_NETWORK_PLAYERS = "mooncraft-services:network-players";
     public static final @NotNull String REDIS_NETWORK_COUNTERS = "mooncraft-services:network-counters";
+    public static final @NotNull String REDIS_NETWORK_SERVERS = "mooncraft-services:network-servers";
 }
