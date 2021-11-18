@@ -23,3 +23,12 @@ redis:
     # Specifies the cycle of idle resources detection. Unit: milliseconds.
     # A value of -1 specifies idle resource detection is disabled.
     time-between-eviction-runs-millis: 30000
+#################
+# Servers Model
+#################
+servers-display:
+  lobby: "Lobby"
+  sf: "Starfruit"
+  bw: "Bed Wars"
+  opp: "OP Prison"
+  ogp: "OG Prison"

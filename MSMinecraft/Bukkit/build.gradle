@@ -6,5 +6,5 @@ dependencies {
     compileOnly 'com.google.code.gson:gson:2.8.8'
 }
 
-group 'mc.mooncraft.services.minecraft.bukkit'
+group 'gg.mooncraft.services.minecraft.bukkit'
 description = 'This is the Minecraft Bukkit version of MoonCraft Services.'

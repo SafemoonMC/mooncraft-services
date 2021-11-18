@@ -6,5 +6,5 @@ dependencies {
     compileOnly 'com.google.code.gson:gson:2.8.8'
 }
 
-group 'mc.mooncraft.services.minecraft.bungee'
+group 'gg.mooncraft.services.minecraft.bungee'
 description = 'This is the Minecraft Bungee version of MoonCraft services'
