@@ -1,5 +1,6 @@
 package gg.mooncraft.services.minecraft.bungee.config.prefabs;
 
+import gg.mooncraft.services.minecraft.bungee.MSMinecraftMain;
 import gg.mooncraft.services.minecraft.bungee.config.BungeeConfiguration;
 import lombok.Getter;
 import net.md_5.bungee.api.CommandSender;
@@ -25,10 +26,11 @@ public final class CommunityInputOutputPrefab {
         this.inputOutputList = new ArrayList<>();
         Configuration configuration = bungeeConfiguration.getConfiguration().getSection("community-input-output");
         for (String key : configuration.getKeys()) {
-            String permission = configuration.getString("community-input-output." + key + ".permission", "");
-            List<String> message = configuration.getStringList("community-input-output." + key + ".message");
+            String permission = configuration.getString(key + ".permission", "").trim();
+            List<String> message = configuration.getStringList(key + ".message");
             this.inputOutputList.add(new InputOutput(key.toLowerCase(), permission, message));
         }
+        MSMinecraftMain.getInstance().getLogger().info(this.inputOutputList.size() + " elements have been loaded from community-input-output.");
     }
     
     /*

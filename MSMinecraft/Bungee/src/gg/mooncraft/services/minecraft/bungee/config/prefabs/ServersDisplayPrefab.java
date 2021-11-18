@@ -1,5 +1,6 @@
 package gg.mooncraft.services.minecraft.bungee.config.prefabs;
 
+import gg.mooncraft.services.minecraft.bungee.MSMinecraftMain;
 import gg.mooncraft.services.minecraft.bungee.config.BungeeConfiguration;
 import lombok.Getter;
 import net.md_5.bungee.config.Configuration;
@@ -24,9 +25,10 @@ public final class ServersDisplayPrefab {
         this.serverDisplayList = new ArrayList<>();
         Configuration configuration = bungeeConfiguration.getConfiguration().getSection("servers-display");
         for (String key : configuration.getKeys()) {
-            String display = configuration.getString("servers-display." + key);
+            String display = configuration.getString(key).trim();
             this.serverDisplayList.add(new ServerDisplay(key.toLowerCase(), display));
         }
+        MSMinecraftMain.getInstance().getLogger().info(this.serverDisplayList.size() + " elements have been loaded from servers-display.");
     }
     
     /*
