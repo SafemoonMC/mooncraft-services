@@ -30,7 +30,7 @@ public final class CommunityDAO {
                 .with(proxiedPlayer.getUniqueId().toString())
                 .build();
         return MSMinecraftMain.getInstance().getDatabase().getDatabaseManager().executeQuery(query, resultSetIterator -> {
-            if (!resultSetIterator.hasNext()) {
+            if (resultSetIterator == null) {
                 return insert(new CommunityUser(proxiedPlayer.getUniqueId(), proxiedPlayer.getName(), null, null, Timestamp.from(Instant.now()), Timestamp.from(Instant.now()), 1, proxiedPlayer.getServer().getInfo().getName())).join();
             }
             ResultSetWrapper resultSetWrapper = new ResultSetWrapper(resultSetIterator.next());
@@ -52,11 +52,12 @@ public final class CommunityDAO {
     }
     
     public static @NotNull CompletableFuture<CommunityUser> insert(@NotNull CommunityUser communityUser) {
-        Query query = Query.single("INSERT INTO " + TABLE + " (unique_id, username, first_join, last_join, last_server) VALUES (?, ?, ?, ?);")
+        Query query = Query.single("INSERT INTO " + TABLE + " (unique_id, username, first_join, last_join, total_joins, last_server) VALUES (?, ?, ?, ?, ?, ?);")
                 .with(communityUser.getUniqueId().toString())
                 .with(communityUser.getUsername())
                 .with(communityUser.getFirstJoin())
                 .with(communityUser.getLastJoin())
+                .with(communityUser.getTotalJoins())
                 .with(communityUser.getLastServer())
                 .build();
         return MSMinecraftMain.getInstance().getDatabase().getDatabaseManager().updateQuery(query, result -> communityUser);
@@ -75,7 +76,7 @@ public final class CommunityDAO {
     
     public static @NotNull CompletableFuture<Void> updateLastServer(@NotNull ProxiedPlayer proxiedPlayer) {
         Query query = Query.single("UPDATE " + TABLE + " SET last_server = ? WHERE unique_id = ?;")
-                .with(proxiedPlayer.getServer().getInfo())
+                .with(proxiedPlayer.getServer().getInfo().getName())
                 .with(proxiedPlayer.getUniqueId().toString())
                 .build();
         return MSMinecraftMain.getInstance().getDatabase().getDatabaseManager().updateQuery(query);
