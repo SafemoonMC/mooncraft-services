@@ -3,16 +3,17 @@ package gg.mooncraft.services.minecraft.bungee;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import gg.mooncraft.services.minecraft.bungee.api.ApiRegistrationUtility;
 import gg.mooncraft.services.minecraft.bungee.api.impl.MSMinecraftImpl;
 import gg.mooncraft.services.minecraft.bungee.config.BungeeConfiguration;
-import gg.mooncraft.services.minecraft.bungee.handlers.ServerListeners;
-import gg.mooncraft.services.minecraft.bungee.utilities.BungeeRedisUtilities;
-import lombok.AccessLevel;
-import lombok.Getter;
-import gg.mooncraft.services.minecraft.bungee.api.ApiRegistrationUtility;
+import gg.mooncraft.services.minecraft.bungee.config.ConfigurationPrefabs;
 import gg.mooncraft.services.minecraft.bungee.factories.NetworkCountersFactory;
 import gg.mooncraft.services.minecraft.bungee.factories.NetworkPlayersFactory;
+import gg.mooncraft.services.minecraft.bungee.handlers.ServerListeners;
+import gg.mooncraft.services.minecraft.bungee.utilities.BungeeRedisUtilities;
 import gg.mooncraft.services.minecraft.core.JedisManager;
+import lombok.AccessLevel;
+import lombok.Getter;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
 import org.jetbrains.annotations.NotNull;
@@ -29,6 +30,8 @@ public class MSMinecraftMain extends Plugin {
     private static Gson gson;
     
     private BungeeConfiguration bungeeConfiguration;
+    private ConfigurationPrefabs configurationPrefabs;
+    
     private JedisManager jedisManager;
     
     private BungeeMessaging bungeeMessaging;
@@ -49,6 +52,7 @@ public class MSMinecraftMain extends Plugin {
         
         // Load configuration
         this.bungeeConfiguration = new BungeeConfiguration(this);
+        this.configurationPrefabs = new ConfigurationPrefabs(this.bungeeConfiguration);
         
         // Load JedisManager
         if (!loadJedisManager()) {
