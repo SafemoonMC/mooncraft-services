@@ -5,12 +5,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import gg.mooncraft.services.minecraft.bungee.api.ApiRegistrationUtility;
 import gg.mooncraft.services.minecraft.bungee.api.impl.MSMinecraftImpl;
+import gg.mooncraft.services.minecraft.bungee.commands.IOCommand;
 import gg.mooncraft.services.minecraft.bungee.config.BungeeConfiguration;
 import gg.mooncraft.services.minecraft.bungee.config.ConfigurationPrefabs;
 import gg.mooncraft.services.minecraft.bungee.factories.NetworkCountersFactory;
 import gg.mooncraft.services.minecraft.bungee.factories.NetworkPlayersFactory;
 import gg.mooncraft.services.minecraft.bungee.factories.NetworkServersFactory;
-import gg.mooncraft.services.minecraft.bungee.handlers.InputOutputListeners;
 import gg.mooncraft.services.minecraft.bungee.handlers.ServerListeners;
 import gg.mooncraft.services.minecraft.bungee.utilities.BungeeRedisUtilities;
 import gg.mooncraft.services.minecraft.core.JedisManager;
@@ -76,7 +76,9 @@ public class MSMinecraftMain extends Plugin {
         
         // Load listeners
         new ServerListeners();
-        new InputOutputListeners();
+        
+        // Load commands
+        getConfigurationPrefabs().getCommunityInputOutputPrefab().getInputOutputList().forEach(inputOutput -> new IOCommand(inputOutput.command(), inputOutput.permission()));
         
         getLogger().info("Enabled!");
     }
