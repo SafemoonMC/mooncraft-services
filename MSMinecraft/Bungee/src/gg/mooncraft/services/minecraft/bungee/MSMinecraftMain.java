@@ -13,6 +13,7 @@ import gg.mooncraft.services.minecraft.bungee.database.BungeeDatabaseUtilities;
 import gg.mooncraft.services.minecraft.bungee.factories.NetworkCountersFactory;
 import gg.mooncraft.services.minecraft.bungee.factories.NetworkPlayersFactory;
 import gg.mooncraft.services.minecraft.bungee.factories.NetworkServersFactory;
+import gg.mooncraft.services.minecraft.bungee.handlers.CommunityListeners;
 import gg.mooncraft.services.minecraft.bungee.handlers.ServerListeners;
 import gg.mooncraft.services.minecraft.bungee.scheduler.BungeeScheduler;
 import gg.mooncraft.services.minecraft.bungee.utilities.BungeeRedisUtilities;
@@ -105,6 +106,7 @@ public class MSMinecraftMain extends Plugin {
         
         // Load listeners
         new ServerListeners();
+        new CommunityListeners();
         
         // Load commands
         new VerifyCommand();
