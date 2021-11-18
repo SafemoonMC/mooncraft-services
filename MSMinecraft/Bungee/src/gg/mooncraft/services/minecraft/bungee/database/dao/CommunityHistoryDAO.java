@@ -15,7 +15,7 @@ public final class CommunityHistoryDAO {
     /*
     Constants
      */
-    private static final @NotNull String TABLE = "msm_community";
+    private static final @NotNull String TABLE = "msm_community_history";
     
     /*
     Methods
