@@ -62,7 +62,7 @@ subprojects {
 
     processResources {
         filter ReplaceTokens, tokens: [
-                "minecraft-author"  : project.property("minecraft-author"),
+                "plugin-author"     : project.property("plugin-author"),
                 "plugin-version"    : project.property("plugin-version"),
                 "plugin-api-version": project.property("plugin-api-version")
         ]

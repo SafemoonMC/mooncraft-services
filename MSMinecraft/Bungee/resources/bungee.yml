@@ -1,4 +1,4 @@
 name: MSMinecraft
 main: gg.mooncraft.services.minecraft.bungee.MSMinecraftMain
 version: @plugin-version@
-author: @minecraft-author@
+author: @plugin-author@

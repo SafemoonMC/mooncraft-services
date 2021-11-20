@@ -2,4 +2,4 @@ name: MSMinecraft
 main: gg.mooncraft.services.minecraft.bukkit.MSMinecraftMain
 version: @plugin-version@
 api-version: @plugin-api-version@
-author: @minecraft-author@
+author: @plugin-author@
