@@ -61,13 +61,19 @@ public abstract class AbstractApplication {
      * @param args the application launch arguments
      */
     void run(@NotNull String[] args) {
+        System.out.println(getName());
+        System.out.println(getDescription());
+        System.out.println();
+        System.out.println("Launch arguments: " + (args.length == 0 ? "none" : String.join(" ", args)));
+        System.out.println();
         getLogger().info("Starting up...");
         
         // Register disabling hook
         Thread onDisableHook = new Thread(() -> {
+            getLogger().info("Disabling...");
             onDisable();
             getLogger().info("Application shutdown.");
-        });
+        }, getName());
         Runtime.getRuntime().addShutdownHook(onDisableHook);
         
         // Try to parse arguments
@@ -75,14 +81,16 @@ public abstract class AbstractApplication {
         try {
             this.commandLine = commandLineParser.parse(getLaunchOptions(), args);
         } catch (Exception e) {
-            getLogger().error("Launch arguments cannot be parsed: \n {}", e.getMessage());
+            getLogger().error("Launch arguments cannot be parsed: \n {} \n", e.getMessage());
             printHelp();
             shutdown();
             return;
         }
         
         // Call the lifecycle methods
+        getLogger().info("Loading...");
         onLoad();
+        getLogger().info("Enabling...");
         onEnable();
     }
     
@@ -100,7 +108,7 @@ public abstract class AbstractApplication {
     void printHelp() {
         Options options = getLaunchOptions();
         HelpFormatter helpFormatter = new HelpFormatter();
-        helpFormatter.printHelp("MSRestfulWeb", "List of all options:", options, "+---------------+", true);
+        helpFormatter.printHelp(getName(), "List of all options:", options, "+---------------+", true);
     }
     
     /**
@@ -108,7 +116,7 @@ public abstract class AbstractApplication {
      *
      * @return the logger from the application bootstrap
      */
-    @NotNull Logger getLogger() {
+    protected @NotNull Logger getLogger() {
         return ApplicationBootstrap.getLogger();
     }
     
