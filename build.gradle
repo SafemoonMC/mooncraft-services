@@ -76,19 +76,15 @@ subprojects {
     }
 
     jar {
-        exclude '/META-INF/**'
         archiveClassifier.set("base")
     }
     sourcesJar {
-        exclude '/META-INF/**'
         archiveClassifier.set("sources")
     }
     javadocJar {
-        exclude '/META-INF/**'
         archiveClassifier.set("javadocs")
     }
     shadowJar {
-        exclude '/META-INF/**'
         archiveClassifier.set("")
     }
     tasks.withType(JavaCompile) {
