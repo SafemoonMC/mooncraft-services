@@ -31,12 +31,12 @@ public abstract class AbstractApplication {
     /**
      * The first lifecycle method: gets called after command line parsing
      */
-    public abstract void onLoad();
+    public abstract void onLoad() throws Exception;
     
     /**
      * The second lifecycle method: gets called after onLoad method.
      */
-    public abstract void onEnable();
+    public abstract void onEnable() throws Exception;
     
     /**
      * The final lifectycle method: gets called when the application shutdowns through a controlled process
@@ -88,10 +88,16 @@ public abstract class AbstractApplication {
         }
         
         // Call the lifecycle methods
-        getLogger().info("Loading...");
-        onLoad();
-        getLogger().info("Enabling...");
-        onEnable();
+        try {
+            getLogger().info("Loading...");
+            onLoad();
+            getLogger().info("Enabling...");
+            onEnable();
+        } catch (Exception e) {
+            getLogger().error("Error during a lifecycle...");
+            e.printStackTrace();
+            shutdown();
+        }
     }
     
     /**
