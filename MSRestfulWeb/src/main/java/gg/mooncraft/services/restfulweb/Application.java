@@ -1,5 +1,6 @@
 package gg.mooncraft.services.restfulweb;
 
+import gg.mooncraft.services.restfulweb.discord.Discord;
 import gg.mooncraft.services.restfulweb.endpoints.RestPaths;
 import gg.mooncraft.services.restfulweb.mysql.MySQLUtilities;
 import gg.mooncraft.services.restfulweb.properties.PropertiesWrapper;
@@ -7,6 +8,7 @@ import gg.mooncraft.services.restfulweb.redis.JedisManager;
 import gg.mooncraft.services.restfulweb.redis.JedisUtilities;
 import gg.mooncraft.services.restfulweb.scheduler.AppScheduler;
 import io.javalin.Javalin;
+import lombok.Getter;
 import me.eduardwayland.mooncraft.waylander.database.Credentials;
 import me.eduardwayland.mooncraft.waylander.database.Database;
 import me.eduardwayland.mooncraft.waylander.database.connection.hikari.impl.MariaDBConnectionFactory;
@@ -16,7 +18,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -24,6 +25,7 @@ import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.Properties;
 
+@Getter
 public final class Application extends AbstractApplication {
     
     /*
@@ -35,11 +37,14 @@ public final class Application extends AbstractApplication {
     Fields
      */
     private @Nullable PropertiesWrapper propertiesWrapper;
+    
     private @Nullable AppScheduler appScheduler;
     private @Nullable Database database;
+    
     private @Nullable JedisManager jedisManager;
     
     private @Nullable Javalin javalin;
+    private @Nullable Discord discord;
     
     /*
     Constructor
@@ -90,7 +95,7 @@ public final class Application extends AbstractApplication {
     }
     
     @Override
-    public void onEnable() throws FileNotFoundException {
+    public void onEnable() throws Exception {
         if (getCommandLine() == null) {
             shutdown();
             return;
@@ -117,6 +122,9 @@ public final class Application extends AbstractApplication {
         // Setup Redis
         getLogger().info(propertiesWrapper.getProperty("redis.username") + " - " + propertiesWrapper.getProperty("redis.password"));
         this.jedisManager = new JedisManager(JedisUtilities.parsePoolConfig(propertiesWrapper), JedisUtilities.parseHostAndPort(propertiesWrapper), propertiesWrapper.getProperty("redis.username"), propertiesWrapper.getProperty("redis.password"));
+        
+        // Setup Discord
+        this.discord = new Discord();
         
         // Setup Javalin
         this.javalin = Javalin.create().start(propertiesWrapper.getPropertyInteger("restapi.port", 5000));
@@ -170,6 +178,10 @@ public final class Application extends AbstractApplication {
                 case POST -> this.javalin.post(restPaths.getPath(), restPaths.getHandler());
             }
         }
+    }
+    
+    public @NotNull Optional<Discord> getDiscord() {
+        return Optional.ofNullable(this.discord);
     }
     
     public @NotNull Optional<PropertiesWrapper> getProperties() {

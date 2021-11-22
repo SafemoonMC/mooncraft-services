@@ -25,7 +25,7 @@ dependencies {
     implementation 'org.slf4j:slf4j-simple:2.0.0-alpha0'
 
     implementation 'io.javalin:javalin:4.1.1'
-    implementation("net.dv8tion:JDA:4.3.0_277") exclude module: 'opus-java'
+    implementation 'club.minnced:discord-webhooks:0.7.2'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
@@ -43,6 +43,9 @@ shadowJar {
     relocate 'org.apache.commons.cli', 'gg.mooncraft.services.libs.org.apache.commons.cli'
     relocate 'io.javalin', 'gg.mooncraft.services.libs.io.javalin'
     relocate 'me.eduardwayland.mooncraft.waylander', 'gg.mooncraft.services.libs.waylander'
+    relocate 'io.javalin', 'gg.mooncraft.services.libs.io.javalin'
+//    relocate 'net.dv8tion', 'gg.mooncraft.services.libs.net.dv8tion'
+    relocate 'club.minnced', 'gg.mooncraft.services.libs.club.minnced'
 }
 
 test {
