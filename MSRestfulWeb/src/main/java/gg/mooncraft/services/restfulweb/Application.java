@@ -1,10 +1,12 @@
 package gg.mooncraft.services.restfulweb;
 
+import gg.mooncraft.services.restfulweb.endpoints.RestPaths;
 import gg.mooncraft.services.restfulweb.mysql.MySQLUtilities;
 import gg.mooncraft.services.restfulweb.properties.PropertiesWrapper;
 import gg.mooncraft.services.restfulweb.redis.JedisManager;
 import gg.mooncraft.services.restfulweb.redis.JedisUtilities;
 import gg.mooncraft.services.restfulweb.scheduler.AppScheduler;
+import io.javalin.Javalin;
 import me.eduardwayland.mooncraft.waylander.database.Credentials;
 import me.eduardwayland.mooncraft.waylander.database.Database;
 import me.eduardwayland.mooncraft.waylander.database.connection.hikari.impl.MariaDBConnectionFactory;
@@ -19,6 +21,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
 import java.util.Properties;
 
 public final class Application extends AbstractApplication {
@@ -31,9 +34,12 @@ public final class Application extends AbstractApplication {
     /*
     Fields
      */
+    private @Nullable PropertiesWrapper propertiesWrapper;
     private @Nullable AppScheduler appScheduler;
     private @Nullable Database database;
     private @Nullable JedisManager jedisManager;
+    
+    private @Nullable Javalin javalin;
     
     /*
     Constructor
@@ -91,17 +97,16 @@ public final class Application extends AbstractApplication {
         }
         
         // Load properties either from command line or file
-        PropertiesWrapper propertiesWrapper;
         if (getCommandLine().hasOption("NF")) {
             Properties mysqlProperties = getCommandLine().getOptionProperties("M");
             Properties redisProperties = getCommandLine().getOptionProperties("R");
             
-            propertiesWrapper = new PropertiesWrapper();
-            propertiesWrapper.putAll(mysqlProperties, "mysql");
-            propertiesWrapper.putAll(redisProperties, "redis");
+            this.propertiesWrapper = new PropertiesWrapper();
+            this.propertiesWrapper.putAll(mysqlProperties, "mysql");
+            this.propertiesWrapper.putAll(redisProperties, "redis");
         } else {
             File file = new File(LAUNCH_PROPERTIES_FILE);
-            propertiesWrapper = new PropertiesWrapper(file);
+            this.propertiesWrapper = new PropertiesWrapper(file);
         }
         
         // Setup Waylander library
@@ -112,6 +117,10 @@ public final class Application extends AbstractApplication {
         // Setup Redis
         getLogger().info(propertiesWrapper.getProperty("redis.username") + " - " + propertiesWrapper.getProperty("redis.password"));
         this.jedisManager = new JedisManager(JedisUtilities.parsePoolConfig(propertiesWrapper), JedisUtilities.parseHostAndPort(propertiesWrapper), propertiesWrapper.getProperty("redis.username"), propertiesWrapper.getProperty("redis.password"));
+        
+        // Setup Javalin
+        this.javalin = Javalin.create().start(propertiesWrapper.getPropertyInteger("restapi.port", 5000));
+        registerRequestHandlers();
         
         getLogger().info("Application has been enabled.");
     }
@@ -153,5 +162,17 @@ public final class Application extends AbstractApplication {
     /*
     Methods
      */
+    private void registerRequestHandlers() {
+        if (this.javalin == null) return;
+        for (RestPaths restPaths : RestPaths.values()) {
+            switch (restPaths.getRequestType()) {
+                case GET -> this.javalin.get(restPaths.getPath(), restPaths.getHandler());
+                case POST -> this.javalin.post(restPaths.getPath(), restPaths.getHandler());
+            }
+        }
+    }
     
+    public @NotNull Optional<PropertiesWrapper> getProperties() {
+        return Optional.ofNullable(this.propertiesWrapper);
+    }
 }
