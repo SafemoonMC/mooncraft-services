@@ -17,7 +17,7 @@ public class MySQLUtilities {
         String port = propertiesWrapper.getProperty("mysql.port", "3306");
         
         int maximumPoolSize = propertiesWrapper.getPropertyInteger("mysql.pool-settings.maximum-pool-size", 10);
-        int minimumIdle = propertiesWrapper.getPropertyInteger("mysql.pool-settings.maximum-idle", 10);
+        int minimumIdle = propertiesWrapper.getPropertyInteger("mysql.pool-settings.minimum-idle", 10);
         int maximumLifetime = propertiesWrapper.getPropertyInteger("mysql.pool-settings.maximum-lifetime", 1800000);
         int keepaliveTime = propertiesWrapper.getPropertyInteger("mysql.pool-settings.keepalive-time", 0);
         int connectionTimeout = propertiesWrapper.getPropertyInteger("mysql.pool-settings.connection-timeout", 5000);
