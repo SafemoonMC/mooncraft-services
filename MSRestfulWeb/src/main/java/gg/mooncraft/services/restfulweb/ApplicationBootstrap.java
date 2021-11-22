@@ -16,6 +16,12 @@ public final class ApplicationBootstrap {
     @Getter
     private static final @NotNull Logger logger = LoggerFactory.getLogger("Main");
     
+    /*
+    Fields
+     */
+    @Getter
+    private static final @NotNull Application application = new Application("MSRestfulWeb", "This is the MoonCraft RESTful Web Service");
+    
     /**
      * Application entry point.
      *
@@ -23,8 +29,6 @@ public final class ApplicationBootstrap {
      */
     public static void main(String[] args) {
         Thread.currentThread().setName("MSRestfulWeb");
-        
-        Application application = new Application("MSRestfulWeb", "This is the MoonCraft RESTful Web Service");
         application.run(args);
     }
 }
