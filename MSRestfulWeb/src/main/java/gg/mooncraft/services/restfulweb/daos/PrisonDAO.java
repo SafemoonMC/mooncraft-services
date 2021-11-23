@@ -38,7 +38,7 @@ public final class PrisonDAO {
     }
     
     public static @NotNull CompletableFuture<OPPrisonData> loadOPPrisonData(@NotNull UUID uniqueId) {
-        Query query = Query.single("SELECT ranks.id_rank, ranks.id_prestige, blocks.blocks FROM UltraPrison_Ranks ranks JOIN UltraPrison_BlocksBroken blocks USING (UUID) WHERE UUID = ?")
+        Query query = Query.single("SELECT ranks.id_rank, ranks.id_prestige, blocks.blocks FROM opprison.UltraPrison_Ranks ranks JOIN opprison.UltraPrison_BlocksBroken blocks USING (UUID) WHERE UUID = ?")
                 .with(uniqueId.toString())
                 .build();
         return ApplicationBootstrap.getApplication().getDatabase().getDatabaseManager().executeQuery(query, resultSetIterator -> {
