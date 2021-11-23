@@ -19,6 +19,7 @@ dependencies {
     implementation 'redis.clients:jedis:3.7.0'
     implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.4'
     implementation 'com.google.code.gson:gson:2.8.8'
+    implementation 'com.github.ben-manes.caffeine:caffeine:3.0.4'
     implementation 'commons-cli:commons-cli:1.5.0'
 
     implementation 'org.slf4j:slf4j-api:2.0.0-alpha0'
@@ -36,6 +37,7 @@ shadowJar {
 
     relocate 'redis.clients', 'gg.mooncraft.services.libs.redis.clients'
     relocate 'javax.servlet', 'gg.mooncraft.services.libs.javax.servlet'
+    relocate 'com.github.benmanes', 'gg.mooncraft.services.libs.com.github.benmanes'
     relocate 'com.google.gson', 'gg.mooncraft.services.libs.com.google.gson'
     relocate 'com.zaxxer', 'gg.mooncraft.services.libs.com.zaxxer'
     relocate 'org.mariadb.jdbc', 'gg.mooncraft.services.libs.org.mariadb.jdbc'
@@ -44,7 +46,6 @@ shadowJar {
     relocate 'io.javalin', 'gg.mooncraft.services.libs.io.javalin'
     relocate 'me.eduardwayland.mooncraft.waylander', 'gg.mooncraft.services.libs.waylander'
     relocate 'io.javalin', 'gg.mooncraft.services.libs.io.javalin'
-//    relocate 'net.dv8tion', 'gg.mooncraft.services.libs.net.dv8tion'
     relocate 'club.minnced', 'gg.mooncraft.services.libs.club.minnced'
 }
 
