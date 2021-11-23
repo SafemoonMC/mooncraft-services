@@ -1,6 +1,8 @@
 package gg.mooncraft.services.restfulweb.endpoints;
 
 import gg.mooncraft.services.restfulweb.endpoints.get.Player;
+import gg.mooncraft.services.restfulweb.endpoints.get.ServersAll;
+import gg.mooncraft.services.restfulweb.endpoints.get.ServersGroup;
 import gg.mooncraft.services.restfulweb.endpoints.post.impl.*;
 import io.javalin.http.Handler;
 import lombok.AllArgsConstructor;
@@ -11,8 +13,8 @@ import lombok.Getter;
 public enum RestPaths {
     
     PLAYER("/player/{player}", RequestType.GET, new Player()),
-    SERVERS("/servers", RequestType.GET, null),
-    SERVERS_ALL("/servers/all", RequestType.GET, null),
+    SERVERS("/servers", RequestType.GET, new ServersGroup()),
+    SERVERS_ALL("/servers/all", RequestType.GET, new ServersAll()),
     VERIFY_WALLET("/verify/wallet", RequestType.POST, new VerifyWallet()),
     VERIFY_DISCORD("/verify/discord", RequestType.POST, new VerifyDiscord()),
     FORM_STAFF_APPLICATION("/form/staff-application", RequestType.POST, new FormStaffApplication()),
