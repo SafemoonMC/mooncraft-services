@@ -1,5 +1,6 @@
 package gg.mooncraft.services.restfulweb.endpoints;
 
+import gg.mooncraft.services.restfulweb.endpoints.get.Player;
 import gg.mooncraft.services.restfulweb.endpoints.post.impl.*;
 import io.javalin.http.Handler;
 import lombok.AllArgsConstructor;
@@ -9,7 +10,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum RestPaths {
     
-    PLAYER("/player/{player}", RequestType.GET, null),
+    PLAYER("/player/{player}", RequestType.GET, new Player()),
     SERVERS("/servers", RequestType.GET, null),
     SERVERS_ALL("/servers/all", RequestType.GET, null),
     VERIFY_WALLET("/verify/wallet", RequestType.POST, new VerifyWallet()),

@@ -1,7 +1,10 @@
 package gg.mooncraft.services.restfulweb;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import gg.mooncraft.services.restfulweb.discord.Discord;
 import gg.mooncraft.services.restfulweb.endpoints.RestPaths;
+import gg.mooncraft.services.restfulweb.factories.PlayersFactory;
 import gg.mooncraft.services.restfulweb.mysql.MySQLUtilities;
 import gg.mooncraft.services.restfulweb.properties.PropertiesWrapper;
 import gg.mooncraft.services.restfulweb.redis.JedisManager;
@@ -31,7 +34,8 @@ public final class Application extends AbstractApplication {
     /*
     Constants
      */
-    private static final String LAUNCH_PROPERTIES_FILE = "launch.properties";
+    public static final @NotNull Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+    private static final @NotNull String LAUNCH_PROPERTIES_FILE = "launch.properties";
     
     /*
     Fields
@@ -45,6 +49,8 @@ public final class Application extends AbstractApplication {
     
     private @Nullable Javalin javalin;
     private @Nullable Discord discord;
+    
+    private @Nullable PlayersFactory playersFactory;
     
     /*
     Constructor
@@ -127,8 +133,14 @@ public final class Application extends AbstractApplication {
         this.discord = new Discord();
         
         // Setup Javalin
-        this.javalin = Javalin.create().start(propertiesWrapper.getPropertyInteger("restapi.port", 5000));
+        this.javalin = Javalin.create();
+        this.javalin._conf.showJavalinBanner = false;
+        this.javalin.start(propertiesWrapper.getPropertyInteger("restapi.port", 5000));
+        
         registerRequestHandlers();
+        
+        // Setup factories
+        this.playersFactory = new PlayersFactory();
         
         getLogger().info("Application has been enabled.");
     }
@@ -141,6 +153,7 @@ public final class Application extends AbstractApplication {
             this.appScheduler.shutdownExecutor();
             this.appScheduler.shutdownScheduler();
         }
+        if (this.javalin != null) this.javalin.stop();
         
         getLogger().info("Application has been disabled.");
     }
