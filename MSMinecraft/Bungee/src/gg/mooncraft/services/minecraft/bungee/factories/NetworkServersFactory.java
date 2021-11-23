@@ -42,7 +42,7 @@ public final class NetworkServersFactory {
                     Map<String, NetworkServers.ServerGroup> map = new HashMap<>();
                     for (String groupName : groupsList) {
                         String display = MSMinecraftMain.getInstance().getConfigurationPrefabs().getServersDisplayPrefab().getServerDisplay(groupName).map(ServersDisplayPrefab.ServerDisplay::display).orElse(groupName);
-                        List<String> servers = serverList.stream().filter(serverName -> serverName.startsWith(groupName)).collect(Collectors.toList());
+                        List<String> servers = serverList.stream().filter(serverName -> serverName.toLowerCase().startsWith(groupName)).collect(Collectors.toList());
                         
                         NetworkServers.ServerGroup serverGroup = new NetworkServers.ServerGroup(display, servers);
                         map.put(groupName, serverGroup);
