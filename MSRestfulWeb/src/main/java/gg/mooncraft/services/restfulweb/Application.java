@@ -1,10 +1,13 @@
 package gg.mooncraft.services.restfulweb;
 
+import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import gg.mooncraft.services.restfulweb.discord.Discord;
 import gg.mooncraft.services.restfulweb.endpoints.RestPaths;
 import gg.mooncraft.services.restfulweb.factories.PlayersFactory;
+import gg.mooncraft.services.restfulweb.factories.ServersFactory;
+import gg.mooncraft.services.restfulweb.gson.RecordTypeAdapterFactory;
 import gg.mooncraft.services.restfulweb.mysql.MySQLUtilities;
 import gg.mooncraft.services.restfulweb.properties.PropertiesWrapper;
 import gg.mooncraft.services.restfulweb.redis.JedisManager;
@@ -35,6 +38,7 @@ public final class Application extends AbstractApplication {
     Constants
      */
     public static final @NotNull Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+    public static final @NotNull Gson GSON_REDIS = new GsonBuilder().registerTypeAdapterFactory(new RecordTypeAdapterFactory()).setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES).create();
     private static final @NotNull String LAUNCH_PROPERTIES_FILE = "launch.properties";
     
     /*
@@ -51,6 +55,7 @@ public final class Application extends AbstractApplication {
     private @Nullable Discord discord;
     
     private @Nullable PlayersFactory playersFactory;
+    private @Nullable ServersFactory serversFactory;
     
     /*
     Constructor
@@ -141,6 +146,7 @@ public final class Application extends AbstractApplication {
         
         // Setup factories
         this.playersFactory = new PlayersFactory();
+        this.serversFactory = new ServersFactory();
         
         getLogger().info("Application has been enabled.");
     }
