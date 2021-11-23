@@ -27,8 +27,12 @@ public final class NetworkServers {
     }
     
     /*
-    Records
+    Inner
      */
-    public record ServerGroup(@NotNull String display, @NotNull List<String> serverList) {
+    @Getter
+    @AllArgsConstructor
+    public static class ServerGroup {
+        private final @NotNull String display;
+        private final @NotNull List<String> serverList;
     }
 }
