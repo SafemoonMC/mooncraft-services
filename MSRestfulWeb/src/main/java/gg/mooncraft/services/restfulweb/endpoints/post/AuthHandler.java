@@ -1,6 +1,9 @@
 package gg.mooncraft.services.restfulweb.endpoints.post;
 
+import gg.mooncraft.services.restfulweb.Application;
 import gg.mooncraft.services.restfulweb.ApplicationBootstrap;
+import gg.mooncraft.services.restfulweb.models.message.HttpResult;
+import io.javalin.http.ContentType;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
 import io.javalin.http.HttpCode;
@@ -45,6 +48,7 @@ public abstract class AuthHandler implements Handler {
      */
     private void deny(@NotNull Context ctx) {
         ctx.status(HttpCode.UNAUTHORIZED);
+        ctx.result(Application.GSON.toJson(new HttpResult(false, "Authentication is required."))).contentType(ContentType.APPLICATION_JSON);
         ApplicationBootstrap.getLogger().warn("Unauthorized connection detected from IP: {}", ctx.ip());
     }
 }
