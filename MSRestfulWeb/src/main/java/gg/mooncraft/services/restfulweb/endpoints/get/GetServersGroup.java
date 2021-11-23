@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public class ServersGroup implements Handler {
+public class GetServersGroup implements Handler {
     @Override
     public void handle(@NotNull Context ctx) throws Exception {
         if (ApplicationBootstrap.getApplication().getServersFactory() == null) {

@@ -1,14 +1,14 @@
-package gg.mooncraft.services.restfulweb.endpoints.post.impl;
+package gg.mooncraft.services.restfulweb.endpoints.post;
 
 import club.minnced.discord.webhook.send.WebhookEmbed;
 import club.minnced.discord.webhook.send.WebhookEmbedBuilder;
 import gg.mooncraft.services.restfulweb.ApplicationBootstrap;
-import gg.mooncraft.services.restfulweb.endpoints.models.ReportStaffMember;
-import gg.mooncraft.services.restfulweb.endpoints.post.AuthHandler;
+import gg.mooncraft.services.restfulweb.models.form.ReportStaffMember;
+import gg.mooncraft.services.restfulweb.endpoints.auth.AuthHandler;
 import io.javalin.http.Context;
 import org.jetbrains.annotations.NotNull;
 
-public final class FormReportStaffMember extends AuthHandler {
+public final class PostFormReportStaffMember extends AuthHandler {
     @Override
     public void handleAuthorized(@NotNull Context ctx) {
         ReportStaffMember application = ctx.bodyValidator(ReportStaffMember.class)

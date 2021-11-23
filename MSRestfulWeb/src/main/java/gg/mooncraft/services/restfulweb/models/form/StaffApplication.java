@@ -1,4 +1,4 @@
-package gg.mooncraft.services.restfulweb.endpoints.models;
+package gg.mooncraft.services.restfulweb.models.form;
 
 import lombok.Getter;
 import lombok.Setter;

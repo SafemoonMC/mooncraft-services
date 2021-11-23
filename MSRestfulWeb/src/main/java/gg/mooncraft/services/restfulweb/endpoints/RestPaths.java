@@ -1,9 +1,9 @@
 package gg.mooncraft.services.restfulweb.endpoints;
 
-import gg.mooncraft.services.restfulweb.endpoints.get.Player;
-import gg.mooncraft.services.restfulweb.endpoints.get.ServersAll;
-import gg.mooncraft.services.restfulweb.endpoints.get.ServersGroup;
-import gg.mooncraft.services.restfulweb.endpoints.post.impl.*;
+import gg.mooncraft.services.restfulweb.endpoints.get.GetPlayer;
+import gg.mooncraft.services.restfulweb.endpoints.get.GetServersEach;
+import gg.mooncraft.services.restfulweb.endpoints.get.GetServersGroup;
+import gg.mooncraft.services.restfulweb.endpoints.post.*;
 import io.javalin.http.Handler;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,14 +12,14 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum RestPaths {
     
-    PLAYER("/player/{player}", RequestType.GET, new Player()),
-    SERVERS("/servers", RequestType.GET, new ServersGroup()),
-    SERVERS_ALL("/servers/all", RequestType.GET, new ServersAll()),
-    VERIFY_WALLET("/verify/wallet", RequestType.POST, new VerifyWallet()),
-    VERIFY_DISCORD("/verify/discord", RequestType.POST, new VerifyDiscord()),
-    FORM_STAFF_APPLICATION("/form/staff-application", RequestType.POST, new FormStaffApplication()),
-    FORM_PUNISHMENT_APPEAL("/form/punishment-appeal", RequestType.POST, new FormPunishmentAppeal()),
-    FORM_REPORT_STAFF_MEMBER("/form/report-staff-member", RequestType.POST, new FormReportStaffMember());
+    PLAYER("/player/{player}", RequestType.GET, new GetPlayer()),
+    SERVERS("/servers", RequestType.GET, new GetServersGroup()),
+    SERVERS_ALL("/servers/all", RequestType.GET, new GetServersEach()),
+    VERIFY_WALLET("/verify/wallet", RequestType.POST, new PostVerifyWallet()),
+    VERIFY_DISCORD("/verify/discord", RequestType.POST, new PostVerifyDiscord()),
+    FORM_STAFF_APPLICATION("/form/staff-application", RequestType.POST, new PostFormStaffApplication()),
+    FORM_PUNISHMENT_APPEAL("/form/punishment-appeal", RequestType.POST, new PostFormPunishmentAppeal()),
+    FORM_REPORT_STAFF_MEMBER("/form/report-staff-member", RequestType.POST, new PostFormReportStaffMember());
     
     /*
     Fields

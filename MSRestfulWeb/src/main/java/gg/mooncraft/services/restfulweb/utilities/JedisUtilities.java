@@ -1,4 +1,4 @@
-package gg.mooncraft.services.restfulweb.redis;
+package gg.mooncraft.services.restfulweb.utilities;
 
 import gg.mooncraft.services.restfulweb.properties.PropertiesWrapper;
 import lombok.AccessLevel;

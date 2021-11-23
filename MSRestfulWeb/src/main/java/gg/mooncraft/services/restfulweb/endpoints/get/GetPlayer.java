@@ -14,7 +14,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Player implements Handler {
+public class GetPlayer implements Handler {
     
     /*
     Constants

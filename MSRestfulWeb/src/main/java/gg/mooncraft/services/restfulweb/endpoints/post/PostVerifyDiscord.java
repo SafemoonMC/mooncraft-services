@@ -1,10 +1,10 @@
-package gg.mooncraft.services.restfulweb.endpoints.post.impl;
+package gg.mooncraft.services.restfulweb.endpoints.post;
 
-import gg.mooncraft.services.restfulweb.endpoints.post.AuthHandler;
+import gg.mooncraft.services.restfulweb.endpoints.auth.AuthHandler;
 import io.javalin.http.Context;
 import org.jetbrains.annotations.NotNull;
 
-public class VerifyDiscord extends AuthHandler {
+public class PostVerifyDiscord extends AuthHandler {
     
     @Override
     public void handleAuthorized(@NotNull Context ctx) {

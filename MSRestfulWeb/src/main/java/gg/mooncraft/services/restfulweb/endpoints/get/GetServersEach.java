@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
-public class ServersAll implements Handler {
+public class GetServersEach implements Handler {
     @Override
     public void handle(@NotNull Context ctx) throws Exception {
         if (ApplicationBootstrap.getApplication().getServersFactory() == null) {

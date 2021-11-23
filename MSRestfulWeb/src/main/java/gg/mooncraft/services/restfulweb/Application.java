@@ -8,11 +8,11 @@ import gg.mooncraft.services.restfulweb.endpoints.RestPaths;
 import gg.mooncraft.services.restfulweb.factories.PlayersFactory;
 import gg.mooncraft.services.restfulweb.factories.ServersFactory;
 import gg.mooncraft.services.restfulweb.gson.RecordTypeAdapterFactory;
-import gg.mooncraft.services.restfulweb.mysql.MySQLUtilities;
+import gg.mooncraft.services.restfulweb.managers.JedisManager;
 import gg.mooncraft.services.restfulweb.properties.PropertiesWrapper;
-import gg.mooncraft.services.restfulweb.redis.JedisManager;
-import gg.mooncraft.services.restfulweb.redis.JedisUtilities;
 import gg.mooncraft.services.restfulweb.scheduler.AppScheduler;
+import gg.mooncraft.services.restfulweb.utilities.JedisUtilities;
+import gg.mooncraft.services.restfulweb.utilities.MySQLUtilities;
 import io.javalin.Javalin;
 import lombok.Getter;
 import me.eduardwayland.mooncraft.waylander.database.Credentials;
@@ -75,8 +75,9 @@ public final class Application extends AbstractApplication {
         }
         
         // Check if application can run with the launch options
-        if (getCommandLine().hasOption("nofile") && (!getCommandLine().hasOption("redis") || !getCommandLine().hasOption("mysql"))) {
-            getLogger().error("You cannot have -NF without -M and -R launch options.");
+        if (getCommandLine().hasOption("nofile") && (!getCommandLine().hasOption("redis") || !getCommandLine().hasOption("mysql") || !getCommandLine().hasOption("discord") || !getCommandLine().hasOption("restapi"))) {
+            getLogger().error("You cannot have -NF without -M, -R, -D, -REST launch options.");
+            printHelp();
             shutdown();
             return;
         }
@@ -95,7 +96,7 @@ public final class Application extends AbstractApplication {
                 }
             } catch (Exception e) {
                 getLogger().error("Property file '{}' cannot be created. Error: {}", LAUNCH_PROPERTIES_FILE, e);
-                if ((!getCommandLine().hasOption("redis") || !getCommandLine().hasOption("mysql"))) {
+                if ((!getCommandLine().hasOption("redis") || !getCommandLine().hasOption("mysql") || !getCommandLine().hasOption("discord") || !getCommandLine().hasOption("restapi"))) {
                     shutdown();
                     return;
                 }
@@ -114,10 +115,14 @@ public final class Application extends AbstractApplication {
         
         // Load properties either from command line or file
         if (getCommandLine().hasOption("NF")) {
+            Properties restapiProperties = getCommandLine().getOptionProperties("REST");
+            Properties discordProperties = getCommandLine().getOptionProperties("D");
             Properties mysqlProperties = getCommandLine().getOptionProperties("M");
             Properties redisProperties = getCommandLine().getOptionProperties("R");
             
             this.propertiesWrapper = new PropertiesWrapper();
+            this.propertiesWrapper.putAll(restapiProperties, "restapi");
+            this.propertiesWrapper.putAll(discordProperties, "discord");
             this.propertiesWrapper.putAll(mysqlProperties, "mysql");
             this.propertiesWrapper.putAll(redisProperties, "redis");
         } else {
@@ -166,6 +171,16 @@ public final class Application extends AbstractApplication {
     
     @Override
     public @NotNull Options getLaunchOptions() {
+        Option restapiProperties = Option.builder("REST").longOpt("restapi")
+                .numberOfArgs(4).valueSeparator()
+                .argName("[property]=[value]")
+                .desc("use value for given property. Available properties: port, token, cache.eviction-time, cache.eviction-size")
+                .build();
+        Option discordProperties = Option.builder("D").longOpt("discord")
+                .numberOfArgs(3).valueSeparator()
+                .argName("[property]=[value]")
+                .desc("use value for given property. Available properties: staff-application-webhook, punishment-appeal-webhook, report-staff-member-webhook")
+                .build();
         Option mysqlProperties = Option.builder("M").longOpt("mysql")
                 .numberOfArgs(4).valueSeparator()
                 .argName("[property]=[value]")
@@ -180,6 +195,8 @@ public final class Application extends AbstractApplication {
                 .desc("ignores launch.properties file creation")
                 .build();
         Options options = new Options();
+        options.addOption(restapiProperties);
+        options.addOption(discordProperties);
         options.addOption(mysqlProperties);
         options.addOption(redisProperties);
         options.addOption(noFileProperties);

@@ -1,4 +1,4 @@
-package gg.mooncraft.services.restfulweb.mysql;
+package gg.mooncraft.services.restfulweb.utilities;
 
 import gg.mooncraft.services.restfulweb.properties.PropertiesWrapper;
 import me.eduardwayland.mooncraft.waylander.database.Credentials;

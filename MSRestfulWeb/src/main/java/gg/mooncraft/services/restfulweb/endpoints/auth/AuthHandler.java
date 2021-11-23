@@ -1,4 +1,4 @@
-package gg.mooncraft.services.restfulweb.endpoints.post;
+package gg.mooncraft.services.restfulweb.endpoints.auth;
 
 import gg.mooncraft.services.restfulweb.Application;
 import gg.mooncraft.services.restfulweb.ApplicationBootstrap;

@@ -1,4 +1,4 @@
-package gg.mooncraft.services.restfulweb.redis;
+package gg.mooncraft.services.restfulweb.managers;
 
 import org.jetbrains.annotations.NotNull;
 import redis.clients.jedis.HostAndPort;
