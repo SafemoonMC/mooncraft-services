@@ -3,7 +3,7 @@ dependencies {
     compileOnly rootProject.files('/dependencies/spigots/Paper-1.16.5.jar')
 
     compileOnly 'me.clip:placeholderapi:2.10.9'
-    compileOnly 'com.google.code.gson:gson:2.8.8'
+    compileOnly 'com.google.code.gson:gson:2.8.9'
 }
 
 group 'gg.mooncraft.services.minecraft.bukkit'
