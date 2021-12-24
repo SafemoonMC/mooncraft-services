@@ -52,7 +52,7 @@ public final class NetworkServersFactory {
                 })
                 .thenApply(newNetworkServers -> this.networkServers = newNetworkServers)
                 .thenApply(newNetworkServers -> {
-                    MSMinecraftMain.getInstance().getLogger().info("Adding NetworkServers into Redis memory...");
+//                    MSMinecraftMain.getInstance().getLogger().info("Adding NetworkServers into Redis memory...");
                     MSMinecraftMain.getInstance().getJedisManager().addKeyValue(ProtocolKeys.REDIS_NETWORK_SERVERS, MSMinecraftMain.getGson().toJson(newNetworkServers));
                     return newNetworkServers;
                 });

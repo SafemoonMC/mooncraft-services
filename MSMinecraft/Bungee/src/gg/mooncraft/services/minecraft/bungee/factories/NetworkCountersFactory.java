@@ -42,12 +42,12 @@ public final class NetworkCountersFactory {
                 })
                 .thenApply(newNetworkCounters -> this.networkCounters = newNetworkCounters)
                 .thenApply(newNetworkCounters -> {
-                    MSMinecraftMain.getInstance().getLogger().info("Adding NetworkCounters into Redis memory...");
+//                    MSMinecraftMain.getInstance().getLogger().info("Adding NetworkCounters into Redis memory...");
                     MSMinecraftMain.getInstance().getJedisManager().addKeyValue(ProtocolKeys.REDIS_NETWORK_COUNTERS, MSMinecraftMain.getGson().toJson(newNetworkCounters));
                     return newNetworkCounters;
                 })
                 .thenApply(newNetworkCounters -> {
-                    MSMinecraftMain.getInstance().getLogger().info("Sending NetworkCounters to all servers...");
+//                    MSMinecraftMain.getInstance().getLogger().info("Sending NetworkCounters to all servers...");
                     MSMinecraftMain.getInstance().getBungeeMessaging().sendJsonMessage(ProtocolKeys.BUNGEE_NETWORK_COUNTERS, MSMinecraftMain.getGson().toJson(newNetworkCounters));
                     return newNetworkCounters;
                 });

@@ -47,12 +47,12 @@ public final class NetworkPlayersFactory {
                 })
                 .thenApply(newNetworkPlayers -> this.networkPlayers = newNetworkPlayers)
                 .thenApply(newNetworkPlayers -> {
-                    MSMinecraftMain.getInstance().getLogger().info("Adding NetworkPlayers into Redis memory...");
+//                    MSMinecraftMain.getInstance().getLogger().info("Adding NetworkPlayers into Redis memory...");
                     MSMinecraftMain.getInstance().getJedisManager().addKeyValue(ProtocolKeys.REDIS_NETWORK_PLAYERS, MSMinecraftMain.getGson().toJson(newNetworkPlayers));
                     return newNetworkPlayers;
                 })
                 .thenApply(newNetworkPlayers -> {
-                    MSMinecraftMain.getInstance().getLogger().info("Sending NetworkPlayers to all servers...");
+//                    MSMinecraftMain.getInstance().getLogger().info("Sending NetworkPlayers to all servers...");
                     MSMinecraftMain.getInstance().getBungeeMessaging().sendJsonMessage(ProtocolKeys.BUNGEE_NETWORK_PLAYERS, MSMinecraftMain.getGson().toJson(newNetworkPlayers));
                     return newNetworkPlayers;
                 });

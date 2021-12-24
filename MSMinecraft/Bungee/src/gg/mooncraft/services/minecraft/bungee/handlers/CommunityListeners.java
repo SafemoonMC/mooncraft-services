@@ -25,7 +25,8 @@ public class CommunityListeners implements Listener {
     public void on(@NotNull ServerSwitchEvent e) {
         ProxiedPlayer proxiedPlayer = e.getPlayer();
         if (e.getFrom() == null) {
-            CommunityDAO.handle(proxiedPlayer).thenAccept(communityUser -> MSMinecraftMain.getInstance().getLogger().info(proxiedPlayer.getName() + "'s community data: " + communityUser.toString()));
+            CommunityDAO.handle(proxiedPlayer);
+//            .thenAccept(communityUser -> MSMinecraftMain.getInstance().getLogger().info(proxiedPlayer.getName() + "'s community data: " + communityUser.toString()));
             return;
         }
         CommunityDAO.updateLastServer(proxiedPlayer).thenAccept(v -> MSMinecraftMain.getInstance().getLogger().info(proxiedPlayer.getName() + " switched server and its community data has been updated."));
