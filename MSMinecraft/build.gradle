@@ -17,6 +17,7 @@ shadowJar {
     relocate 'org.mariadb.jdbc', 'gg.mooncraft.services.libs.org.mariadb.jdbc'
     relocate 'org.apache.commons.pool2', 'gg.mooncraft.services.libs.org.apache.commons.pool2'
     relocate 'gg.mooncraft.services.datamodels', 'gg.mooncraft.services.libs.datamodels'
+    relocate 'me.eduardwayland.mooncraft.waylander', 'gg.mooncraft.services.libs.waylander'
 }
 
 group 'gg.mooncraft.services.minecraft'
