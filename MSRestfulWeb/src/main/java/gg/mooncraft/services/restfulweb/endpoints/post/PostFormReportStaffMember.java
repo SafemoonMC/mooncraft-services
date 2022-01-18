@@ -5,12 +5,14 @@ import club.minnced.discord.webhook.send.WebhookEmbedBuilder;
 import gg.mooncraft.services.restfulweb.ApplicationBootstrap;
 import gg.mooncraft.services.restfulweb.models.form.ReportStaffMember;
 import gg.mooncraft.services.restfulweb.endpoints.auth.AuthHandler;
+import io.javalin.core.util.Header;
 import io.javalin.http.Context;
 import org.jetbrains.annotations.NotNull;
 
 public final class PostFormReportStaffMember extends AuthHandler {
     @Override
     public void handleAuthorized(@NotNull Context ctx) {
+        ctx.header(Header.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         ReportStaffMember application = ctx.bodyValidator(ReportStaffMember.class)
                 .check(obj -> obj.username.length() < 50 && obj.username.length() > 0, "user")
                 .check(obj -> obj.email.length() < 160 && obj.email.length() > 0, "email")

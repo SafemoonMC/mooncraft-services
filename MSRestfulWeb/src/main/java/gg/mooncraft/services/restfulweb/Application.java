@@ -145,8 +145,9 @@ public final class Application extends AbstractApplication {
         // Setup Javalin
         this.javalin = Javalin.create();
         this.javalin._conf.showJavalinBanner = false;
+        this.javalin._conf.enableCorsForAllOrigins();
         this.javalin.start(propertiesWrapper.getPropertyInteger("restapi.port", 5000));
-        
+
         registerRequestHandlers();
         
         // Setup factories

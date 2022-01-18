@@ -4,6 +4,7 @@ import gg.mooncraft.services.restfulweb.Application;
 import gg.mooncraft.services.restfulweb.ApplicationBootstrap;
 import gg.mooncraft.services.restfulweb.models.PlayerData;
 import gg.mooncraft.services.restfulweb.models.message.HttpResult;
+import io.javalin.core.util.Header;
 import io.javalin.http.ContentType;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
@@ -26,6 +27,7 @@ public class GetPlayer implements Handler {
      */
     @Override
     public void handle(@NotNull Context ctx) throws Exception {
+        ctx.header(Header.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         if (ApplicationBootstrap.getApplication().getPlayersFactory() == null) {
             ctx.status(HttpCode.SERVICE_UNAVAILABLE);
             ctx.result(Application.GSON.toJson(new HttpResult(false, "The service is unavailable."))).contentType(ContentType.APPLICATION_JSON);
