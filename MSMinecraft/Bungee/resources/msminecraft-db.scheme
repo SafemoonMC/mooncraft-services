@@ -8,8 +8,8 @@ CREATE TABLE IF NOT EXISTS msm_community
     username    VARCHAR(16)     NOT NULL,
     discord_id  VARCHAR(18),
     wallet_id   VARCHAR(50),
-    first_join  TIMESTAMP       NOT NULL,
-    last_join   TIMESTAMP       NOT NULL,
+    first_join  TIMESTAMP       NOT NULL default CURRENT_TIMESTAMP,
+    last_join   TIMESTAMP       NOT NULL default CURRENT_TIMESTAMP,
     total_joins BIGINT UNSIGNED NOT NULL DEFAULT 0,
     last_server VARCHAR(36)     NOT NULL
 );
@@ -18,6 +18,6 @@ CREATE TABLE IF NOT EXISTS msm_community_history
     id          BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     unique_id   CHAR(36)        NOT NULL,
     username    VARCHAR(16)     NOT NULL,
-    change_time TIMESTAMP       NOT NULL,
+    change_time TIMESTAMP       NOT NULL default CURRENT_TIMESTAMP,
     FOREIGN KEY (unique_id) REFERENCES msm_community (unique_id) ON DELETE CASCADE
 );
