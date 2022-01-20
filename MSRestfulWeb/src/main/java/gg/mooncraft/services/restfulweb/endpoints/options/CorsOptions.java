@@ -12,6 +12,6 @@ public class CorsOptions implements Handler {
         if (!WebUtilities.checkLimit(ctx)) {
             return;
         }
-        WebUtilities.enableCors(ctx, "GET, OPTIONS");
+        WebUtilities.enableCors(ctx, "OPTIONS");
     }
 }
