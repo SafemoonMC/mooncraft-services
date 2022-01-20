@@ -1,20 +1,24 @@
 package gg.mooncraft.services.restfulweb.models;
 
-import gg.mooncraft.services.restfulweb.daos.BedwarsDAO;
+import lombok.AllArgsConstructor;
+
+import me.eduardwayland.mooncraft.waylander.database.entities.EntityParent;
+
+import org.jetbrains.annotations.NotNull;
+
 import gg.mooncraft.services.restfulweb.daos.PlayerDAO;
 import gg.mooncraft.services.restfulweb.daos.PrisonDAO;
 import gg.mooncraft.services.restfulweb.daos.StarfruitDAO;
+import gg.mooncraft.services.restfulweb.daos.UserDAO;
+import gg.mooncraft.services.restfulweb.daos.bedwars.stats.StatisticTypes;
 import gg.mooncraft.services.restfulweb.models.player.PlayerLoginData;
-import lombok.AllArgsConstructor;
-import me.eduardwayland.mooncraft.waylander.database.entities.EntityParent;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 @AllArgsConstructor
 public final class PlayerData implements EntityParent<PlayerData> {
-    
+
     /*
     Fields
      */
@@ -26,7 +30,7 @@ public final class PlayerData implements EntityParent<PlayerData> {
     private @NotNull OGPrisonData ogPrisonData;
     private @NotNull OPPrisonData opPrisonData;
     private @NotNull StarfruitData starfruitData;
-    
+
     /*
     Constructor
      */
@@ -35,19 +39,33 @@ public final class PlayerData implements EntityParent<PlayerData> {
         this.name = username;
         this.playerLoginData = playerLoginData;
     }
-    
+
     /*
     Override Methods
      */
     @Override
     public CompletableFuture<PlayerData> withChildren() {
         CompletableFuture<Void> rankCompletableFuture = PlayerDAO.getPlayerRank(this.uuid).thenAccept(futureData -> this.rank = futureData);
-        CompletableFuture<Void> bedwarsDataCompletableFuture = BedwarsDAO.loadBedwarsData(this.uuid).thenAccept(futureData -> this.bedwarsData = futureData);
+        CompletableFuture<Void> bedwarsDataCompletableFuture = UserDAO.read(this.uuid).thenAccept(futureData -> {
+            this.bedwarsData = new BedwarsData(
+                    futureData.getStatisticContainer().getGameStatisticTotal(StatisticTypes.GAME.NORMAL_KILLS).intValue(),
+                    futureData.getStatisticContainer().getGameStatisticTotal(StatisticTypes.GAME.NORMAL_DEATHS).intValue(),
+                    futureData.getStatisticContainer().getGameStatisticTotal(StatisticTypes.GAME.WINS).intValue(),
+                    futureData.getStatisticContainer().getGameStatisticTotal(StatisticTypes.GAME.LOSSES).intValue(),
+                    futureData.getStatisticContainer().getGameStatisticTotal(StatisticTypes.GAME.FINAL_KILLS).intValue(),
+                    futureData.getStatisticContainer().getGameStatisticTotal(StatisticTypes.GAME.BEDS_BROKEN).intValue(),
+                    futureData.getStatisticContainer().getOverallStatistic(StatisticTypes.OVERALL.IRON).intValue(),
+                    futureData.getStatisticContainer().getOverallStatistic(StatisticTypes.OVERALL.GOLD).intValue(),
+                    futureData.getStatisticContainer().getOverallStatistic(StatisticTypes.OVERALL.DIAMOND).intValue(),
+                    futureData.getStatisticContainer().getOverallStatistic(StatisticTypes.OVERALL.EMERALD).intValue(),
+                    futureData.getPrestige().getDisplay()
+            );
+        });
         CompletableFuture<Void> ogPrisonDataCompletableFuture = PrisonDAO.loadOGPrisonData(this.uuid).thenAccept(futureData -> this.ogPrisonData = futureData);
         CompletableFuture<Void> opPrisonDataCompletableFuture = PrisonDAO.loadOPPrisonData(this.uuid).thenAccept(futureData -> this.opPrisonData = futureData);
         CompletableFuture<Void> starfruitDataCompletableFuture = StarfruitDAO.loadStarfruitData(this.uuid).thenAccept(futureData -> this.starfruitData = futureData);
-        
-        
+
+
         return CompletableFuture.allOf(rankCompletableFuture, bedwarsDataCompletableFuture, ogPrisonDataCompletableFuture, opPrisonDataCompletableFuture, starfruitDataCompletableFuture).thenApply(v -> this);
     }
 }
