@@ -6,10 +6,10 @@ import gg.mooncraft.services.datamodels.NetworkCounters;
 import gg.mooncraft.services.datamodels.NetworkServers;
 import gg.mooncraft.services.restfulweb.Application;
 import gg.mooncraft.services.restfulweb.ApplicationBootstrap;
+import gg.mooncraft.services.restfulweb.endpoints.WebUtilities;
 import gg.mooncraft.services.restfulweb.models.message.HttpResult;
 import gg.mooncraft.services.restfulweb.models.network.GroupServerData;
 import gg.mooncraft.services.restfulweb.models.network.SingleServerData;
-import io.javalin.core.util.Header;
 import io.javalin.http.ContentType;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
@@ -22,7 +22,11 @@ import java.util.concurrent.CompletableFuture;
 public class GetServersGroup implements Handler {
     @Override
     public void handle(@NotNull Context ctx) throws Exception {
-        ctx.header(Header.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
+        if (!WebUtilities.checkLimit(ctx)) {
+            return;
+        }
+        WebUtilities.enableCors(ctx, "GET, OPTIONS");
+
         if (ApplicationBootstrap.getApplication().getServersFactory() == null) {
             ctx.status(HttpCode.SERVICE_UNAVAILABLE);
             ctx.result(Application.GSON.toJson(new HttpResult(false, "The service is unavailable."))).contentType(ContentType.APPLICATION_JSON);
