@@ -20,7 +20,7 @@ public final class BungeeDatabaseUtilities {
         String port = configuration.getString("port", "3306");
         
         int maximumPoolSize = configuration.getInt("pool-settings.maximum-pool-size", 10);
-        int minimumIdle = configuration.getInt("pool-settings.maximum-idle", 10);
+        int minimumIdle = configuration.getInt("pool-settings.minimum-idle", 10);
         int maximumLifetime = configuration.getInt("pool-settings.maximum-lifetime", 1800000);
         int keepaliveTime = configuration.getInt("pool-settings.keepalive-time", 0);
         int connectionTimeout = configuration.getInt("pool-settings.connection-timeout", 5000);
