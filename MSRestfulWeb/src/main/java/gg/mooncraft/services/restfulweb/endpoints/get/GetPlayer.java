@@ -7,6 +7,7 @@ import gg.mooncraft.services.restfulweb.ApplicationBootstrap;
 import gg.mooncraft.services.restfulweb.endpoints.WebUtilities;
 import gg.mooncraft.services.restfulweb.models.PlayerData;
 import gg.mooncraft.services.restfulweb.models.message.HttpResult;
+import io.javalin.core.util.Header;
 import io.javalin.http.ContentType;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
@@ -32,6 +33,7 @@ public class GetPlayer implements Handler {
             return;
         }
         WebUtilities.enableCors(ctx, "GET, OPTIONS");
+        ctx.header(Header.ACCESS_CONTROL_ALLOW_ORIGIN, "https://profiles.mooncraft.gg");
 
         if (ApplicationBootstrap.getApplication().getPlayersFactory() == null) {
             ctx.status(HttpCode.SERVICE_UNAVAILABLE);

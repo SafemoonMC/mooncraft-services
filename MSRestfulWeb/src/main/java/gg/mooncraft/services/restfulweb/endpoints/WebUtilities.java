@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 public final class WebUtilities {
 
     public static void enableCors(@NotNull Context context, @NotNull String methods) {
-        context.header(Header.ACCESS_CONTROL_ALLOW_ORIGIN, "https://*mooncraft.gg");
+        context.header(Header.ACCESS_CONTROL_ALLOW_ORIGIN, "https://mooncraft.gg");
         context.header(Header.ACCESS_CONTROL_ALLOW_METHODS, methods);
         context.header(Header.ACCESS_CONTROL_ALLOW_HEADERS, "*");
     }
