@@ -16,7 +16,7 @@ public abstract class AuthHandler implements Handler {
     /*
     Abstract Methods
      */
-    public abstract void handleAuthorized(@NotNull Context ctx);
+    public abstract boolean handleAuthorized(@NotNull Context ctx);
 
     /*
     Override Methods
@@ -29,10 +29,16 @@ public abstract class AuthHandler implements Handler {
         WebUtilities.enableCors(ctx, "POST, OPTIONS");
 
         // Call new context handling method since authorized
-        handleAuthorized(ctx);
-        ctx.status(HttpCode.OK);
-        ctx.result(Application.GSON.toJson(new HttpResult(true, "The request has been sent!"))).contentType(ContentType.APPLICATION_JSON);
-
+        try {
+            if (handleAuthorized(ctx)) {
+                ctx.status(HttpCode.OK);
+                ctx.result(Application.GSON.toJson(new HttpResult(true, "The request has been sent!"))).contentType(ContentType.APPLICATION_JSON);
+            }
+        } catch (Exception e) {
+            System.out.println("Exception: " + e);
+            ctx.status(HttpCode.BAD_REQUEST);
+            ctx.result(Application.GSON.toJson(new HttpResult(false, "The request cannot be processed."))).contentType(ContentType.APPLICATION_JSON);
+        }
 //        Sadly no auth can be applied at the current time due to web backend design
 //        String authParameter = ctx.queryParam("auth");
 //        if (authParameter == null) {

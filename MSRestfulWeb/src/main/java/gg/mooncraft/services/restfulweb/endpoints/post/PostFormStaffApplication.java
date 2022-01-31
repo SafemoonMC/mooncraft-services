@@ -5,14 +5,16 @@ import org.jetbrains.annotations.NotNull;
 import club.minnced.discord.webhook.send.WebhookEmbed;
 import club.minnced.discord.webhook.send.WebhookEmbedBuilder;
 import gg.mooncraft.services.restfulweb.ApplicationBootstrap;
+import gg.mooncraft.services.restfulweb.endpoints.WebUtilities;
 import gg.mooncraft.services.restfulweb.endpoints.auth.AuthHandler;
 import gg.mooncraft.services.restfulweb.models.form.StaffApplication;
+import io.javalin.core.validation.BodyValidator;
 import io.javalin.http.Context;
 
 public final class PostFormStaffApplication extends AuthHandler {
     @Override
-    public void handleAuthorized(@NotNull Context ctx) {
-        StaffApplication application = ctx.bodyValidator(StaffApplication.class)
+    public boolean handleAuthorized(@NotNull Context ctx) {
+        BodyValidator<StaffApplication> bodyValidator = ctx.bodyValidator(StaffApplication.class)
                 .check(obj -> obj.username.length() < 50 && obj.username.length() > 0, "check fail: username")
                 .check(obj -> obj.email.length() < 160 && obj.email.length() > 0, "check fail: email")
                 .check(obj -> obj.discordtag.length() < 60 && obj.discordtag.length() > 0, "check fail: discordtag")
@@ -22,8 +24,11 @@ public final class PostFormStaffApplication extends AuthHandler {
                 .check(obj -> obj.timeplayed.length() < 160 && obj.timeplayed.length() > 0, "check fail: timeplayed")
                 .check(obj -> obj.staffOnAnotherServer.length() < 160 && obj.staffOnAnotherServer.length() > 0, "check fail: staffOnAnotherServer")
                 .check(obj -> obj.strengthsWeaknesses.length() < 500 && obj.strengthsWeaknesses.length() > 0, "check fail: strengthsWeaknesses")
-                .check(obj -> obj.whyShouldYouBeSelected.length() < 500 && obj.whyShouldYouBeSelected.length() > 0, "check fail: whyShouldYouBeSelected")
-                .get();
+                .check(obj -> obj.whyShouldYouBeSelected.length() < 500 && obj.whyShouldYouBeSelected.length() > 0, "check fail: whyShouldYouBeSelected");
+        if (!WebUtilities.checkRequest(ctx, bodyValidator)) {
+            return false;
+        }
+        StaffApplication application = bodyValidator.get();
         WebhookEmbed webhookEmbed = new WebhookEmbedBuilder()
                 .setTitle(new WebhookEmbed.EmbedTitle("New Staff Application", null))
                 .addField(new WebhookEmbed.EmbedField(true, "Username", application.username))
@@ -38,5 +43,6 @@ public final class PostFormStaffApplication extends AuthHandler {
                 .addField(new WebhookEmbed.EmbedField(true, "Why should you be selected?", application.whyShouldYouBeSelected))
                 .build();
         ApplicationBootstrap.getApplication().getDiscord().ifPresent(discord -> discord.getStaffApplicationWebhook().send(webhookEmbed));
+        return true;
     }
 }
