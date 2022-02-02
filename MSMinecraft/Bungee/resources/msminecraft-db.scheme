@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS msm_community
     username    VARCHAR(16)     NOT NULL,
     discord_id  VARCHAR(18),
     wallet_id   VARCHAR(50),
-    first_join  TIMESTAMP       NOT NULL default CURRENT_TIMESTAMP,
+    first_join  TIMESTAMP       NOT NULL default '0000-00-00 00:00:00',
     last_join   TIMESTAMP       NOT NULL default CURRENT_TIMESTAMP,
     total_joins BIGINT UNSIGNED NOT NULL DEFAULT 0,
     last_server VARCHAR(36)     NOT NULL
