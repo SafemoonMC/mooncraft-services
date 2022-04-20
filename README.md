@@ -30,6 +30,6 @@ You can find the output artifacts in the `/COMPILED_JARS` directory.
 
 ## Contributing
 
-PrisonCells follows the [Google Java Style Guide](https://google.github.io/styleguide/javaguide.html).
+This project follows the [Google Java Style Guide](https://google.github.io/styleguide/javaguide.html).
 Generally, you can import the style from the `java-google-style.xml` file you can find at the root of
 the project.
